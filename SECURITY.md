@@ -2,7 +2,7 @@
 
 ## Reporting Security Vulnerabilities
 
-We take security seriously. If you discover a security vulnerability in this project, **please do not** open a public GitHub issue. Instead, please report it responsibly by:
+We take security seriously. If you discover a security vulnerability in this project, **please** open a public GitHub issue. Instead, please report it responsibly by:
 
 ### Private Disclosure
 - **Email**: Contact the repository maintainer privately with details about the vulnerability
@@ -85,6 +85,22 @@ def verify_file(filepath, expected_sha256):
 2. **Review code** before submitting pull requests
 3. **Test thoroughly** - especially with different byte orders and platforms
 4. **Document security implications** of changes
+
+## Release Signing
+
+We sign release artifacts with GPG to provide provenance and integrity guarantees.
+
+To enable automatic signing during GitHub Actions releases, add the following secret to the repository:
+
+- `GPG_PRIVATE_KEY`: Base64-encoded ASCII-armored private key used to sign release artifacts.
+
+The repository includes a workflow `.github/workflows/sign-release.yml` that:
+
+- Generates `checksums.txt` (SHA256 + SHA512) for published assets using `scripts/generate_checksums.sh`.
+- Imports the `GPG_PRIVATE_KEY` on the runner (if provided), creates an ASCII-armored detached signature `checksums.txt.sig`.
+- Uploads `checksums.txt` and `checksums.txt.sig` to the GitHub Release.
+
+If you prefer not to store a private key on GitHub, you can generate checksums locally and sign them yourself before uploading them to the release.
 
 ## No Warranties
 
