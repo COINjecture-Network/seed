@@ -1,0 +1,13 @@
+# Ignore local secrets and keys
+*.key
+*.gpg
+.env
+secrets.*
+
+# OS files
+.DS_Store
+thumbs.db
+
+# Editor backups
+*~
+.vscode/
