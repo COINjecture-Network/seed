@@ -20,8 +20,5 @@ jobs:
           # Languages covered by examples in this repo
           languages: "javascript,python,go,cpp,java"
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v2
-
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
