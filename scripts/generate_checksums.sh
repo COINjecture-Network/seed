@@ -11,10 +11,6 @@ assets=(
   "golden_seed_16.bin"
   "golden_seed_32.bin"
   "golden_seed.hex"
-  "golden_seed_16.b64"
-  "golden_seed_32.b64"
-  "golden_seed_16.json"
-  "golden_seed_32.json"
 )
 
 for f in "${assets[@]}"; do
