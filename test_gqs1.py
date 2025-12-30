@@ -212,22 +212,15 @@ class TestGQS1(unittest.TestCase):
     
     def test_invalid_seed_raises_error(self):
         """Test that invalid seed checksum raises an error."""
-        # Temporarily modify the seed to cause checksum mismatch
-        import gqs1
-        original_seed = gqs1.HEX_SEED
+        from unittest.mock import patch
         
-        try:
-            # Use an invalid seed
-            gqs1.HEX_SEED = "00" * 32
-            
+        # Patch the HEX_SEED constant to use an invalid seed
+        with patch('gqs1.HEX_SEED', "00" * 32):
             with self.assertRaises(ValueError) as context:
                 generate_test_vectors(1)
             
             self.assertIn("checksum verification failed", str(context.exception).lower())
-        
-        finally:
-            # Restore original seed
-            gqs1.HEX_SEED = original_seed
+
 
 
 class TestGQS1Integration(unittest.TestCase):
