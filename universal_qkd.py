@@ -38,6 +38,8 @@ This implementation provides:
   - XOR folding for key hardening
 """
 
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json

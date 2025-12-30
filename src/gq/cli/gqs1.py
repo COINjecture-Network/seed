@@ -13,6 +13,8 @@ Protocol Overview:
 6. Output keys as hexadecimal strings
 """
 
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json
