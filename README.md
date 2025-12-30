@@ -37,6 +37,8 @@ Language-agnostic, pure machine representation
 
 ## Example Code
 
+> **Note:** The examples below are simplified for clarity. Production code should include comprehensive error handling appropriate for your language and use case.
+
 ### Python
 ```python
 with open('golden_seed_32.bin', 'rb') as f:
