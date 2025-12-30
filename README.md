@@ -131,6 +131,17 @@ for (int i = 0; i < 32; i++) {
 - **golden_seed.hex** - Hex representation (this file format)
 - **golden_seed_16.bin** - 16-byte binary seed
 - **golden_seed_32.bin** - 32-byte binary seed
+- **quantum_teleportation.py** - Quantum teleportation demo using Qiskit
+- **requirements.txt** - Python dependencies for quantum demo
+
+## Quantum Teleportation Demo
+
+This repository includes a demonstration of quantum teleportation using Qiskit. See [QUANTUM_TELEPORTATION.md](QUANTUM_TELEPORTATION.md) for details.
+
+```bash
+pip install -r requirements.txt
+python3 quantum_teleportation.py
+```
 
 ## Security
 
