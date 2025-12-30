@@ -40,6 +40,8 @@ Language-agnostic, pure machine representation
 > **Note:** The examples below are simplified for clarity. Production code should include comprehensive error handling appropriate for your language and use case.
 
 ### Python
+
+**Library Usage:**
 ```python
 with open('golden_seed_32.bin', 'rb') as f:
     seed = f.read(32)
@@ -47,6 +49,74 @@ with open('golden_seed_32.bin', 'rb') as f:
 # XOR with block hash for tie-breaking
 block_hash = b'\x00' * 32  # Your block hash here
 result = bytes(a ^ b for a, b in zip(block_hash, seed))
+```
+
+**Universal QKD Key Generator (GCP-1):**
+
+This repository includes a production-grade Universal QKD (Quantum Key Distribution) key generator implementing the Golden Consensus Protocol v1.0 (`universal_qkd.py`). This protocol provides:
+
+- Deterministic, synchronized key generation across nodes
+- Cryptographic forward secrecy via state ratcheting
+- Basis-matching simulation (~50% efficiency, mimicking quantum systems)
+- XOR folding for key hardening
+- Infinite key stream generation
+
+```bash
+# Generate 10 keys (default)
+python universal_qkd.py
+
+# Generate 100 keys
+python universal_qkd.py -n 100
+
+# Output in JSON format with binary representation
+python universal_qkd.py -n 20 --json --binary
+
+# Save to file
+python universal_qkd.py -n 50 -o keys.txt
+
+# Quiet mode (keys only, no headers)
+python universal_qkd.py -n 5 --quiet
+
+# Verify seed checksum only
+python universal_qkd.py --verify-only
+
+# Save JSON output to file
+python universal_qkd.py -n 100 --json -o keys.json
+```
+
+First key (for cross-implementation validation):
+```
+3c732e0d04dac163a5cc2b15c7caf42c
+```
+
+**GQS-1 Test Vector Generation:**
+
+For test vector generation and compliance testing, use `gqs1.py`:
+
+```bash
+# Generate 10 test vectors (default)
+python gqs1.py
+
+# Generate 100 test vectors
+python gqs1.py -n 100
+
+# Output in JSON format
+python gqs1.py -n 20 --json
+
+# Save to file
+python gqs1.py -n 50 -o vectors.txt
+
+# Quiet mode (vectors only, no headers)
+python gqs1.py -n 5 --quiet
+
+# Verify seed checksum only
+python gqs1.py --verify-only
+```
+
+For more options, run:
+```bash
+python gqs1.py --help
+python universal_qkd.py --help
 ```
 
 ### C/C++
