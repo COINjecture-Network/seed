@@ -24,6 +24,7 @@ The repository also includes standalone CLI scripts that work without installati
 - `universal_qkd.py` - Universal QKD Key Generator (GCP-1)
 - `gqs1.py` - Golden Quantum Standard Test Vectors (GQS-1)
 - `verify_binary_representation.py` - Binary representation verification tool
+- `quantum_key_generator.py` - Quantum Key Generator Service (QKGS) - SaaS-ready key generation
 
 ## Quick Start
 
@@ -196,6 +197,61 @@ Binary Tap (k=11): 0b10001111101110001111110110000100001000100011
 
 Seed SHA256: 7f1665ab9f8c74fd60bd4fdcb10382b63727e10db9d568d385930695cc2f0454
 Manifested SHA256: 677b205682ad566fcee652f80a4e8a538a265dc849da0d86fc0e5282b4cbf115
+```
+
+**Quantum Key Generator Service (QKGS):**
+
+Enterprise-grade SaaS-ready key generation service using Binary Fusion Tap technology:
+
+```bash
+# Generate single 256-bit key using Binary Fusion algorithm
+python quantum_key_generator.py --algorithm fusion --length 256
+
+# Generate 10 hybrid keys (Fusion + Hash + Entropy mixing)
+python quantum_key_generator.py --algorithm hybrid --count 10 --k 11
+
+# Generate 512-bit keys in JSON format for API integration
+python quantum_key_generator.py --algorithm fusion --length 512 --format json
+
+# Generate batch of hash-based keys and save to file
+python quantum_key_generator.py --algorithm hash --count 100 --output keys.json
+```
+
+**Key Generation Algorithms:**
+
+1. **Fusion** - Uses Binary Fusion Tap with 8-fold Heartbeat and ZPE Overflow
+   - Deterministic for same k parameter (unless salted)
+   - Optimal for protocol verification and testing
+   - Includes quantum-inspired entropy extraction
+
+2. **Hash** - Cryptographic hash-based generation with key stretching
+   - Secure random generation (uses `secrets` module)
+   - 1000-iteration key stretching for enhanced security
+   - Deterministic when seed is provided
+
+3. **Hybrid** - Combined approach (Fusion + Hash + External Entropy)
+   - Maximum entropy mixing from multiple sources
+   - Best for production key generation
+   - Combines deterministic and random components
+
+**Supported Key Lengths:** 128, 256, 512 bits
+
+**Applications:**
+- Secure key generation for encryption systems
+- Protocol verification and compliance testing
+- Quantum-inspired cryptography research
+- Deterministic tie-breaking in distributed systems
+- API key generation for SaaS platforms
+
+Example output:
+```
+Key #1:
+  Algorithm: FUSION
+  Key Length: 256 bits
+  Key: 9e4ae62505036d21d8e18c67e3670f8a34576401b5dc269a7ebab421d0dd4b00
+  K Parameter: 11
+  ZPE Overflow: 0b111011
+  Checksum (SHA256): 1ee118404614d235601a858389ca55f7...
 ```
 
 ### C/C++
