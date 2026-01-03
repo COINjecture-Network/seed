@@ -25,6 +25,7 @@ The repository also includes standalone CLI scripts that work without installati
 - `gqs1.py` - Golden Quantum Standard Test Vectors (GQS-1)
 - `verify_binary_representation.py` - Binary representation verification tool
 - `quantum_key_generator.py` - Quantum Key Generator Service (QKGS) - SaaS-ready key generation
+- `language_compiler.py` - Multi-language compiler for Binary Fusion Tap (Python, JS, Rust, Go, C, Java, TypeScript)
 
 ## Quick Start
 
@@ -253,6 +254,48 @@ Key #1:
   ZPE Overflow: 0b111011
   Checksum (SHA256): 1ee118404614d235601a858389ca55f7...
 ```
+
+**Multi-Language Compiler:**
+
+Generate Binary Fusion Tap implementations in any programming language:
+
+```bash
+# List all supported languages
+python language_compiler.py --list
+
+# Generate Python implementation
+python language_compiler.py --language python -o my_keygen.py
+
+# Generate Rust implementation
+python language_compiler.py --language rust -o binary_fusion.rs
+
+# Generate ALL languages at once (Python, JS, TS, Rust, Go, C, Java)
+python language_compiler.py --all
+```
+
+**Supported Languages:**
+- **Python** - Full implementation with type hints
+- **JavaScript** - ES6+ with BigInt support
+- **TypeScript** - Strongly typed with interfaces
+- **Rust** - Memory-safe with zero-cost abstractions
+- **Go** - Concurrent-ready with big.Int
+- **C** - High-performance native implementation
+- **Java** - Enterprise-ready with BigInteger
+
+Each generated implementation includes:
+- Complete Binary Fusion Tap algorithm
+- 8-fold Heartbeat operation
+- ZPE Overflow extraction
+- Example usage code
+- Consistent API across languages
+
+Example: Generate and use Rust implementation:
+```bash
+python language_compiler.py --language rust -o keygen.rs
+rustc keygen.rs && ./keygen
+```
+
+### Language-Specific Examples
 
 ### C/C++
 ```c
