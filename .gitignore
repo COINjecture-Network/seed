@@ -23,3 +23,24 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+
+# Compiled binaries (C, Rust, Go)
+examples/binary_fusion_tap_c
+examples/binary_fusion_tap
+examples/bft
+*.exe
+*.out
+a.out
+
+# Rust
+target/
+Cargo.lock
+
+# Java
+*.class
+
+# TypeScript
+*.js.map
+
+# Go
+go.sum
