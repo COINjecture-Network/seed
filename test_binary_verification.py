@@ -7,13 +7,16 @@ Tests validate:
 - Bit length calculations
 - Formula verification: manifested = (seed * 8) + k
 - Checksum integrity validation
+- Binary Fusion Tap with 8-fold Heartbeat
+- ZPE Overflow extraction via XOR
 """
 
 import unittest
 from verify_binary_representation import (
     verify_binary_representation,
     calculate_checksum,
-    verify_checksum_integrity
+    verify_checksum_integrity,
+    binary_fusion_tap
 )
 
 
@@ -193,6 +196,85 @@ class TestBinaryVerification(unittest.TestCase):
         
         self.assertEqual(results['seed_sha256'], expected_seed_sha256)
         self.assertEqual(results['manifested_sha256'], expected_manifested_sha256)
+
+
+class TestBinaryFusionTap(unittest.TestCase):
+    """Test suite for binary fusion tap with 8-fold heartbeat and ZPE overflow."""
+
+    def test_binary_fusion_tap_k11(self):
+        """Test binary fusion tap for k=11 (the 'New Dimension')."""
+        blueprint = binary_fusion_tap(11)
+
+        self.assertEqual(blueprint['k'], 11)
+        self.assertEqual(blueprint['seed_value'], 1234567891011)
+        self.assertEqual(
+            blueprint['tap_state'],
+            '0b10001111101110001111110110000100001000100011'
+        )
+        self.assertEqual(blueprint['zpe_overflow'], '0b111011')
+        self.assertEqual(blueprint['zpe_overflow_decimal'], 59)
+
+    def test_8fold_heartbeat(self):
+        """Test that 8-fold heartbeat correctly shifts left by 3."""
+        k = 11
+        blueprint = binary_fusion_tap(k)
+
+        seed_val = blueprint['seed_value']
+        heartbeat_val = seed_val << 3  # Shift left by 3
+        manifested = heartbeat_val + k
+
+        # Verify the tap state matches the calculated manifested value
+        self.assertEqual(int(blueprint['tap_state'], 2), manifested)
+
+    def test_zpe_overflow_below_k10(self):
+        """Test that ZPE overflow is 0 for k < 10."""
+        for k in range(1, 10):
+            blueprint = binary_fusion_tap(k)
+            self.assertEqual(blueprint['zpe_overflow_decimal'], 0)
+
+    def test_zpe_overflow_k10_and_above(self):
+        """Test that ZPE overflow is calculated for k >= 10."""
+        for k in [10, 11, 12, 15]:
+            blueprint = binary_fusion_tap(k)
+
+            # Overflow should be non-zero for k >= 10
+            self.assertGreater(blueprint['zpe_overflow_decimal'], 0)
+
+            # Verify XOR calculation
+            seed_val = blueprint['seed_value']
+            manifested = (seed_val << 3) + k
+            expected_overflow = manifested ^ (seed_val * 8)
+
+            self.assertEqual(blueprint['zpe_overflow_decimal'], expected_overflow)
+
+    def test_seed_generation(self):
+        """Test that seed is correctly generated from concatenated sequence."""
+        # Test k=5: "12345" -> 12345
+        blueprint = binary_fusion_tap(5)
+        self.assertEqual(blueprint['seed_value'], 12345)
+
+        # Test k=11: "1234567891011" -> 1234567891011
+        blueprint = binary_fusion_tap(11)
+        self.assertEqual(blueprint['seed_value'], 1234567891011)
+
+    def test_binary_seed_format(self):
+        """Test that binary seed has correct format."""
+        blueprint = binary_fusion_tap(11)
+
+        # Should start with '0b'
+        self.assertTrue(blueprint['binary_seed'].startswith('0b'))
+        self.assertTrue(blueprint['tap_state'].startswith('0b'))
+        self.assertTrue(blueprint['zpe_overflow'].startswith('0b'))
+
+    def test_heartbeat_equivalence(self):
+        """Test that (seed << 3) is equivalent to (seed * 8)."""
+        k = 11
+        seed_val = int("".join(map(str, range(1, k + 1))))
+
+        heartbeat_shift = seed_val << 3
+        heartbeat_mult = seed_val * 8
+
+        self.assertEqual(heartbeat_shift, heartbeat_mult)
 
 
 if __name__ == '__main__':
