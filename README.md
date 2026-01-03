@@ -171,7 +171,7 @@ python universal_qkd.py --help
 
 **Binary Representation Verification:**
 
-Verify binary representations of seed values and their manifested forms:
+Verify binary representations of seed values and their manifested forms with integrated checksum validation:
 
 ```bash
 # Run verification for k=11 with seed_11=1234567891011
@@ -183,11 +183,19 @@ This tool demonstrates the relationship between seed values and their manifested
 manifested = (seed * 8) + k
 ```
 
+The tool includes SHA256 checksum validation for integrity verification:
+- Calculates SHA256 checksums for both seed and manifested values
+- Verifies data integrity during transmission or storage
+- Can validate against known expected checksums
+
 Example output:
 ```
 Seed_11 Bit Length: 41
 Manifested Bit Length: 44
 Binary Tap (k=11): 0b10001111101110001111110110000100001000100011
+
+Seed SHA256: 7f1665ab9f8c74fd60bd4fdcb10382b63727e10db9d568d385930695cc2f0454
+Manifested SHA256: 677b205682ad566fcee652f80a4e8a538a265dc849da0d86fc0e5282b4cbf115
 ```
 
 ### C/C++
