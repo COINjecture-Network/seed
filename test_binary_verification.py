@@ -6,10 +6,15 @@ Tests validate:
 - Manifested value computation
 - Bit length calculations
 - Formula verification: manifested = (seed * 8) + k
+- Checksum integrity validation
 """
 
 import unittest
-from verify_binary_representation import verify_binary_representation
+from verify_binary_representation import (
+    verify_binary_representation,
+    calculate_checksum,
+    verify_checksum_integrity
+)
 
 
 class TestBinaryVerification(unittest.TestCase):
@@ -96,6 +101,98 @@ class TestBinaryVerification(unittest.TestCase):
         # depending on carries
         self.assertGreaterEqual(bit_increase, 3)
         self.assertLessEqual(bit_increase, 4)
+
+    def test_checksum_calculation(self):
+        """Test that checksums are correctly calculated."""
+        seed_value = 1234567891011
+        
+        # Calculate checksum
+        checksum = calculate_checksum(seed_value, 'sha256')
+        
+        # Verify it's a valid hex string of correct length (64 chars for SHA256)
+        self.assertEqual(len(checksum), 64)
+        self.assertTrue(all(c in '0123456789abcdef' for c in checksum))
+        
+        # Verify consistency - same input should produce same checksum
+        checksum2 = calculate_checksum(seed_value, 'sha256')
+        self.assertEqual(checksum, checksum2)
+
+    def test_checksum_in_verification_results(self):
+        """Test that verification results include checksum fields."""
+        k = 11
+        seed_value = 1234567891011
+        
+        results = verify_binary_representation(k, seed_value)
+        
+        # Check that checksum fields are present
+        self.assertIn('seed_sha256', results)
+        self.assertIn('manifested_sha256', results)
+        self.assertIn('seed_checksum_valid', results)
+        self.assertIn('manifested_checksum_valid', results)
+        
+        # Check that checksums are valid hex strings
+        self.assertEqual(len(results['seed_sha256']), 64)
+        self.assertEqual(len(results['manifested_sha256']), 64)
+        
+        # Check that validation flags are True by default
+        self.assertTrue(results['seed_checksum_valid'])
+        self.assertTrue(results['manifested_checksum_valid'])
+
+    def test_checksum_integrity_validation(self):
+        """Test checksum integrity validation with expected values."""
+        seed_value = 1234567891011
+        manifested_value = (seed_value * 8) + 11
+        
+        # Get actual checksums
+        actual_seed_checksum = calculate_checksum(seed_value, 'sha256')
+        actual_manifested_checksum = calculate_checksum(manifested_value, 'sha256')
+        
+        # Verify with correct checksums
+        result = verify_checksum_integrity(
+            seed_value, 
+            manifested_value,
+            actual_seed_checksum,
+            actual_manifested_checksum
+        )
+        
+        self.assertTrue(result['seed_checksum_valid'])
+        self.assertTrue(result['manifested_checksum_valid'])
+        
+        # Verify with incorrect checksums
+        result = verify_checksum_integrity(
+            seed_value,
+            manifested_value,
+            'incorrect_checksum',
+            'incorrect_checksum'
+        )
+        
+        self.assertFalse(result['seed_checksum_valid'])
+        self.assertFalse(result['manifested_checksum_valid'])
+
+    def test_checksum_algorithm_sha512(self):
+        """Test checksum calculation with SHA512 algorithm."""
+        seed_value = 1234567891011
+        
+        # Calculate SHA512 checksum
+        checksum = calculate_checksum(seed_value, 'sha512')
+        
+        # Verify it's a valid hex string of correct length (128 chars for SHA512)
+        self.assertEqual(len(checksum), 128)
+        self.assertTrue(all(c in '0123456789abcdef' for c in checksum))
+
+    def test_known_checksum_values(self):
+        """Test against known checksum values for seed_11."""
+        k = 11
+        seed_11 = 1234567891011
+        
+        results = verify_binary_representation(k, seed_11)
+        
+        # These are the expected checksums for seed_11
+        expected_seed_sha256 = '7f1665ab9f8c74fd60bd4fdcb10382b63727e10db9d568d385930695cc2f0454'
+        expected_manifested_sha256 = '677b205682ad566fcee652f80a4e8a538a265dc849da0d86fc0e5282b4cbf115'
+        
+        self.assertEqual(results['seed_sha256'], expected_seed_sha256)
+        self.assertEqual(results['manifested_sha256'], expected_manifested_sha256)
 
 
 if __name__ == '__main__':
