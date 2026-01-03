@@ -1,5 +1,9 @@
 # Universal Binary Golden Seed - Hex Representation
 
+## License
+
+This project is licensed under the GNU General Public License v3.0 or later (GPL-3.0-or-later). See the LICENSE file for details.
+
 Language-agnostic, pure machine representation
 
 **iφ = 0 + i × φ** where **φ = (1 + √5)/2 ≈ 1.618033988749895**

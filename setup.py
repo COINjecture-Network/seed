@@ -47,7 +47,7 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
         "Operating System :: OS Independent",
     ],
     keywords="quantum cryptography consensus blockchain deterministic qkd gcp gqs",
@@ -56,4 +56,5 @@ setup(
         "Source": "https://github.com/beanapologist/seed",
         "Documentation": "https://github.com/beanapologist/seed#readme",
     },
+    license="GPL-3.0-or-later",
 )
