@@ -18,7 +18,7 @@ import sys
 import tempfile
 import unittest
 import hashlib
-# Add repository root to path for imports
+# Add current directory (repository root) to path for imports
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from qkd.algorithms.universal_qkd import (
     HEX_SEED,

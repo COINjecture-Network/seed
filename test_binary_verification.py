@@ -14,7 +14,7 @@ Tests validate:
 import unittest
 import sys
 import os
-# Add repository root to path for imports (test files are in root directory)
+# Add current directory (repository root) to path for imports
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from checksum.verify_binary_representation import (
     verify_binary_representation,
