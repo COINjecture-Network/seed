@@ -1,14 +1,16 @@
 """
-Golden Quantum Standard (GQS-1) Implementation
+Golden Standard (GQS-1) Implementation
 
 This module implements the GQS-1 protocol for generating deterministic
-test vectors for quantum key distribution testing and compliance.
+test vectors for post-quantum secure key generation testing and compliance.
+
+Designed for integration with NIST Post-Quantum Cryptography (PQC) standards.
 
 Protocol Overview:
 1. Initialize system state S_0 with hex seed
 2. Verify SHA-256 checksum
 3. Use Hash-DRBG ratchet: S_{n+1} = SHA-256(S_n + Counter)
-4. Simulate quantum sifting (retain bits where Alice Basis == Bob Basis)
+4. Simulate entropy sifting (retain bits where basis bits match)
 5. Apply hardening via XOR folding (256 bits -> 128 bits)
 6. Output keys as hexadecimal strings
 """

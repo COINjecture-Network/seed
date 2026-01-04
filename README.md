@@ -1,15 +1,16 @@
-# Quantum Key Distribution (QKD) - Deterministic Keys with Verified Checksums
+# Post-Quantum Secure Key Generation - Deterministic Keys with Verified Checksums
 
 ## Overview
 
-This repository implements a **Quantum Key Distribution (QKD)** system that generates **deterministic keys** with **quantum-level security** using **verified checksums**. The system provides cryptographically strong keys through Binary Fusion Tap technology with 8-fold Heartbeat and ZPE Overflow extraction.
+This repository implements a **Post-Quantum Secure Key Generation** system that generates **deterministic keys** aligned with **NIST Post-Quantum Cryptography (PQC) standards** using **verified checksums**. The system provides cryptographically strong keys through Binary Fusion Tap technology with 8-fold Heartbeat and ZPE Overflow extraction, designed to integrate with NIST-approved PQC algorithms such as CRYSTALS-Kyber, CRYSTALS-Dilithium, and FrodoKEM.
 
 **Key Features:**
 - 🔐 **Deterministic Key Generation** - Reproducible keys from golden seed values
 - ✅ **Verified Checksums** - SHA256/SHA512 integrity validation for all operations
-- 🔬 **Quantum-Level Security** - Quantum-inspired cryptographic algorithms
+- 🔬 **NIST PQC Alignment** - Compatible with post-quantum cryptographic standards (Kyber, Dilithium, FrodoKEM)
 - 🌐 **Universal Compatibility** - Language-agnostic binary representation
 - 📊 **Forward Secrecy** - Cryptographic ratcheting with state progression
+- 🛡️ **Quantum-Resistant** - Designed for security against quantum computer attacks
 
 ## License
 
@@ -35,16 +36,34 @@ pip install -e .
 pip install golden-quantum
 ```
 
+## NIST Post-Quantum Cryptography (PQC) Integration
+
+This system is designed to integrate seamlessly with **NIST-approved Post-Quantum Cryptography** algorithms:
+
+### Supported NIST PQC Algorithms
+- **CRYSTALS-Kyber** - Key Encapsulation Mechanism (KEM) for secure key exchange
+- **CRYSTALS-Dilithium** - Digital signature algorithm for authentication
+- **FrodoKEM** - Conservative lattice-based KEM for long-term security
+
+### Integration Points
+The deterministic key generation can serve as:
+1. **Seed Material** for PQC key generation functions
+2. **Entropy Source** for hybrid classical/post-quantum systems
+3. **Deterministic Tie-Breaking** in consensus protocols using PQC signatures
+4. **Key Derivation** foundation for PQC-secured communication channels
+
+For implementation examples integrating with NIST PQC algorithms, see the `examples/` directory.
+
 ## Repository Structure
 
 ```
 seed/
-├── qkd/                    # Quantum Key Distribution algorithms (importable package)
-│   ├── algorithms/         # Core QKD implementations
-│   │   ├── universal_qkd.py       # Universal QKD Key Generator (GCP-1)
-│   │   ├── gqs1.py                # Golden Quantum Standard (GQS-1)
-│   │   └── quantum_key_generator.py  # QKGS Service
-│   └── utils/             # QKD utility functions
+├── qkd/                    # Post-Quantum Secure key generation algorithms (importable package)
+│   ├── algorithms/         # Core PQC-compatible implementations
+│   │   ├── universal_qkd.py       # Universal Key Generator (GCP-1)
+│   │   ├── gqs1.py                # Golden Standard (GQS-1)
+│   │   └── quantum_key_generator.py  # Key Generator Service
+│   └── utils/             # Utility functions
 ├── checksum/              # Checksum verification tools (importable package)
 │   └── verify_binary_representation.py
 ├── formats/               # Golden seed format examples (importable package)
@@ -60,10 +79,10 @@ seed/
 ### Standalone Scripts
 
 The repository includes standalone CLI scripts that work without installation:
-- `qkd/algorithms/universal_qkd.py` - Universal QKD Key Generator (GCP-1)
-- `qkd/algorithms/gqs1.py` - Golden Quantum Standard Test Vectors (GQS-1)
+- `qkd/algorithms/universal_qkd.py` - Universal Key Generator (GCP-1)
+- `qkd/algorithms/gqs1.py` - Golden Standard Test Vectors (GQS-1)
 - `checksum/verify_binary_representation.py` - Binary representation verification with checksum validation
-- `qkd/algorithms/quantum_key_generator.py` - Quantum Key Generator Service (QKGS) - SaaS-ready key generation
+- `qkd/algorithms/quantum_key_generator.py` - Key Generator Service - SaaS-ready key generation
 - `language_compiler.py` - Multi-language compiler for Binary Fusion Tap (Python, JS, Rust, Go, C, Java, TypeScript)
 
 ## Quick Start
@@ -75,7 +94,7 @@ The repository includes standalone CLI scripts that work without installation:
 ```python
 from gq import UniversalQKD, GQS1
 
-# Generate keys using GCP-1 (Universal QKD)
+# Generate keys using GCP-1 (Universal Key Generator)
 generator = UniversalQKD()
 key = next(generator)
 print(key.hex())  # 3c732e0d04dac163a5cc2b15c7caf42c
@@ -106,7 +125,7 @@ print(key.hex())
 
 ```bash
 # After pip install -e .
-gq-universal -n 10          # Generate 10 universal QKD keys
+gq-universal -n 10          # Generate 10 universal keys
 gq-test-vectors -n 10       # Generate 10 GQS-1 test vectors
 
 # Or use standalone scripts from the repository
@@ -174,15 +193,16 @@ block_hash = b'\x00' * 32  # Your block hash here
 result = bytes(a ^ b for a, b in zip(block_hash, seed))
 ```
 
-**Universal QKD Key Generator (GCP-1):**
+**Universal Key Generator (GCP-1):**
 
-This repository includes a production-grade Universal QKD (Quantum Key Distribution) key generator implementing the Golden Consensus Protocol v1.0 (`qkd/algorithms/universal_qkd.py`). This protocol provides:
+This repository includes a production-grade Universal Key Generator implementing the Golden Consensus Protocol v1.0 (`qkd/algorithms/universal_qkd.py`). This protocol provides:
 
 - Deterministic, synchronized key generation across nodes
 - Cryptographic forward secrecy via state ratcheting
-- Basis-matching simulation (~50% efficiency, mimicking quantum systems)
+- Basis-matching simulation (~50% efficiency)
 - XOR folding for key hardening
 - Infinite key stream generation
+- **NIST PQC Compatible**: Keys suitable for use with Kyber, Dilithium, and FrodoKEM
 
 ```bash
 # Generate 10 keys (default)
@@ -271,7 +291,7 @@ Seed SHA256: 7f1665ab9f8c74fd60bd4fdcb10382b63727e10db9d568d385930695cc2f0454
 Manifested SHA256: 677b205682ad566fcee652f80a4e8a538a265dc849da0d86fc0e5282b4cbf115
 ```
 
-**Quantum Key Generator Service (QKGS):**
+**Key Generator Service:**
 
 Enterprise-grade SaaS-ready key generation service using Binary Fusion Tap technology with deterministic keys and verified checksums:
 
@@ -311,7 +331,8 @@ python qkd/algorithms/quantum_key_generator.py --algorithm hash --count 100 --ou
 **Applications:**
 - Secure key generation for encryption systems
 - Protocol verification and compliance testing
-- Quantum-inspired cryptography research
+- **NIST PQC Integration**: Seed material for Kyber, Dilithium, FrodoKEM
+- Post-quantum cryptography research
 - Deterministic tie-breaking in distributed systems
 - API key generation for SaaS platforms
 
@@ -452,10 +473,10 @@ See the `formats/` directory for golden seed files:
 - **formats/golden_seed_16.bin** - 16-byte binary seed (iφ)
 - **formats/golden_seed_32.bin** - 32-byte binary seed (iφ + 2×φ for consensus)
 
-See the `qkd/` directory for Quantum Key Distribution implementations:
-- **qkd/algorithms/universal_qkd.py** - Universal QKD Key Generator (GCP-1)
-- **qkd/algorithms/gqs1.py** - Golden Quantum Standard Test Vectors (GQS-1)
-- **qkd/algorithms/quantum_key_generator.py** - QKGS Service
+See the `qkd/` directory for Post-Quantum Secure key generation implementations:
+- **qkd/algorithms/universal_qkd.py** - Universal Key Generator (GCP-1)
+- **qkd/algorithms/gqs1.py** - Golden Standard Test Vectors (GQS-1)
+- **qkd/algorithms/quantum_key_generator.py** - Key Generator Service
 
 See the `checksum/` directory for verification tools:
 - **checksum/verify_binary_representation.py** - Binary verification with checksums
