@@ -222,7 +222,7 @@ class TestGQS1(unittest.TestCase):
     def test_invalid_seed_raises_error(self):
         """Test that invalid seed checksum raises an error."""
         # Patch the HEX_SEED constant to use an invalid seed
-        with patch('gqs1.HEX_SEED', "00" * 32):
+        with patch('qkd.algorithms.gqs1.HEX_SEED', "00" * 32):
             with self.assertRaises(ValueError) as context:
                 generate_test_vectors(1)
             
