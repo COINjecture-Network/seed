@@ -135,7 +135,7 @@ python qkd/algorithms/gqs1.py -n 10
 
 ## Seed Values with Verified Checksums
 
-The golden seed values are stored in the `formats/` directory with multiple representations for cross-platform compatibility.
+The golden seed values are stored in the `formats/` directory with multiple representations for cross-platform compatibility. The checksum verification system supports arbitrary bit strengths for any cryptographic application.
 
 ### 16-byte seed (iφ):
 ```
@@ -151,11 +151,17 @@ The golden seed values are stored in the `formats/` directory with multiple repr
 
 ### Checksum Verification
 
-All seed values and generated keys include SHA256 checksum verification to ensure data integrity:
+All seed values and generated keys include SHA256 checksum verification to ensure data integrity for any bit strength:
 
 ```bash
 # Verify binary representation with checksums
 python checksum/verify_binary_representation.py
+
+# Verify seed files of any size (16-bit to multi-megabit)
+python checksum/verify_large_seeds.py formats/golden_seed_16.bin formats/golden_seed_32.bin
+
+# Verify with optional minimum bit size requirement
+python checksum/verify_large_seeds.py --min-bits 1056
 ```
 
 ## Usage in any language
@@ -264,7 +270,7 @@ python qkd/algorithms/universal_qkd.py --help
 
 **Binary Representation Verification with Checksums:**
 
-Verify binary representations of seed values and their manifested forms with integrated checksum validation:
+Verify binary representations of seed values and their manifested forms with integrated checksum validation for any bit strength:
 
 ```bash
 # Run verification for k=11 with seed_11=1234567891011
@@ -280,6 +286,7 @@ The tool includes SHA256 checksum validation for integrity verification:
 - Calculates SHA256 checksums for both seed and manifested values
 - Verifies data integrity during transmission or storage
 - Can validate against known expected checksums
+- Supports arbitrary bit strengths for cryptographic applications
 
 Example output:
 ```
@@ -479,7 +486,8 @@ See the `qkd/` directory for Post-Quantum Secure key generation implementations:
 - **qkd/algorithms/quantum_key_generator.py** - Key Generator Service
 
 See the `checksum/` directory for verification tools:
-- **checksum/verify_binary_representation.py** - Binary verification with checksums
+- **checksum/verify_binary_representation.py** - Binary verification with checksums for arbitrary bit strengths
+- **checksum/verify_large_seeds.py** - Seed file checksum verification supporting any bit size
 
 ## Security
 
