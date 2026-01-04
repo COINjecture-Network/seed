@@ -18,8 +18,12 @@ import hashlib
 import secrets
 import json
 import argparse
+import sys
+import os
+# Add repository root (two levels up) to path for imports
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from typing import List, Dict, Optional
-from verify_binary_representation import binary_fusion_tap, calculate_checksum
+from checksum.verify_binary_representation import binary_fusion_tap, calculate_checksum
 
 
 class QuantumKeyGenerator:

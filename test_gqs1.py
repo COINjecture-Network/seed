@@ -19,7 +19,11 @@ import tempfile
 import unittest
 import hashlib
 from unittest.mock import patch
-from gqs1 import (
+import sys
+import os
+# Add current directory (repository root) to path for imports
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from qkd.algorithms.gqs1 import (
     HEX_SEED,
     EXPECTED_CHECKSUM,
     verify_seed_checksum,
@@ -220,7 +224,7 @@ class TestGQS1(unittest.TestCase):
     def test_invalid_seed_raises_error(self):
         """Test that invalid seed checksum raises an error."""
         # Patch the HEX_SEED constant to use an invalid seed
-        with patch('gqs1.HEX_SEED', "00" * 32):
+        with patch('qkd.algorithms.gqs1.HEX_SEED', "00" * 32):
             with self.assertRaises(ValueError) as context:
                 generate_test_vectors(1)
             
@@ -256,7 +260,7 @@ class TestGQS1CLI(unittest.TestCase):
     def run_cli(self, args):
         """Helper method to run CLI and capture output."""
         result = subprocess.run(
-            [sys.executable, "gqs1.py"] + args,
+            [sys.executable, "qkd/algorithms/gqs1.py"] + args,
             capture_output=True,
             text=True
         )

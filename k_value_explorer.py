@@ -8,8 +8,12 @@ Shows how seed generation, tap states, and ZPE overflow evolve with k.
 
 import argparse
 import json
+import sys
+import os
+# Add current directory (repository root) to path for imports
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from typing import List, Dict
-from verify_binary_representation import binary_fusion_tap, calculate_checksum
+from checksum.verify_binary_representation import binary_fusion_tap, calculate_checksum
 
 
 def explore_k_range(start: int, end: int, show_details: bool = False) -> List[Dict]:

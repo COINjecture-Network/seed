@@ -10,7 +10,11 @@ Tests validate:
 """
 
 import unittest
-from quantum_key_generator import QuantumKeyGenerator
+import sys
+import os
+# Add current directory (repository root) to path for imports
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from qkd.algorithms.quantum_key_generator import QuantumKeyGenerator
 
 
 class TestQuantumKeyGenerator(unittest.TestCase):
