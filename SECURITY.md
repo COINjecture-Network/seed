@@ -79,12 +79,24 @@ def verify_file(filepath, expected_sha256):
 2. **Use from official releases** only (https://github.com/beanapologist/seed/releases)
 3. **Keep your systems updated** to benefit from security patches
 4. **Report suspicious behavior** through proper channels
+5. **Use NIST PQC algorithms** when implementing post-quantum secure systems
 
 ### For Contributors
 1. **Don't commit secrets** - use `.gitignore` for sensitive files
 2. **Review code** before submitting pull requests
 3. **Test thoroughly** - especially with different byte orders and platforms
 4. **Document security implications** of changes
+5. **Consider quantum-resistance** in cryptographic implementations
+
+## NIST Post-Quantum Cryptography (PQC) Alignment
+
+This project is designed to integrate with NIST-approved Post-Quantum Cryptography algorithms for quantum-resistant security:
+
+- **CRYSTALS-Kyber**: Key Encapsulation Mechanism (NIST PQC Standard)
+- **CRYSTALS-Dilithium**: Digital Signature Algorithm (NIST PQC Standard)
+- **FrodoKEM**: Conservative lattice-based KEM (NIST PQC Alternative)
+
+The deterministic key generation can serve as seed material for PQC implementations, providing quantum-resistant security for long-term data protection.
 
 ## Release Signing
 

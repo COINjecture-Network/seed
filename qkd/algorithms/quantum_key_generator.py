@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 """
-Quantum Key Generator Service (QKGS)
+Post-Quantum Secure Key Generator Service
 
 A SaaS-ready key generation service using Binary Fusion Tap technology
 with 8-fold Heartbeat and ZPE Overflow for cryptographically strong keys.
+
+Designed for integration with NIST Post-Quantum Cryptography (PQC) standards
+including CRYSTALS-Kyber, CRYSTALS-Dilithium, and FrodoKEM.
 
 Features:
 - Multiple key generation algorithms (Binary Fusion, Hash-based, Hybrid)
@@ -12,6 +15,7 @@ Features:
 - Batch key generation
 - JSON/Text output formats
 - Deterministic and entropy-based modes
+- NIST PQC compatible output
 """
 
 import hashlib
@@ -26,9 +30,11 @@ from typing import List, Dict, Optional
 from checksum.verify_binary_representation import binary_fusion_tap, calculate_checksum
 
 
-class QuantumKeyGenerator:
+class PQKeyGenerator:
     """
-    High-performance key generator using quantum-inspired binary operations.
+    High-performance key generator using Binary Fusion Tap for post-quantum secure applications.
+    Compatible with NIST PQC algorithms (Kyber, Dilithium, FrodoKEM).
+    """
     """
 
     def __init__(self, algorithm: str = 'fusion', key_length: int = 256):

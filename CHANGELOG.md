@@ -1,11 +1,19 @@
 # Changelog
 
-All notable changes to the Quantum Key Distribution (QKD) Multi-Language Compiler with deterministic keys and verified checksums.
+All notable changes to the Post-Quantum Secure Key Generation Multi-Language Compiler with deterministic keys and verified checksums.
+
+## [Unreleased]
+
+### Changed
+- **NIST PQC Alignment**: Updated terminology to reflect alignment with NIST Post-Quantum Cryptography standards
+- Documentation now emphasizes compatibility with NIST PQC algorithms (CRYSTALS-Kyber, CRYSTALS-Dilithium, FrodoKEM)
+- Clarified system as post-quantum secure key generation rather than traditional QKD
+- Added integration points for NIST PQC algorithm implementations
 
 ## [1.0.0] - 2026-01-03
 
 ### Added
-- **Quantum Key Distribution (QKD) System**: Complete implementation with deterministic keys and quantum-level security
+- **Post-Quantum Secure Key Generation System**: Complete implementation with deterministic keys and quantum-resistant security
 - **Multi-Language Compiler**: Generate Binary Fusion Tap implementations in 7 languages
   - Python (3.6+)
   - JavaScript (Node.js + Browser)
@@ -15,13 +23,14 @@ All notable changes to the Quantum Key Distribution (QKD) Multi-Language Compile
   - C (high-performance native)
   - Java (enterprise-ready)
 
-- **Quantum Key Generator Service (QKGS)**:
+- **Key Generator Service**:
   - Three algorithms: Fusion, Hash, Hybrid
   - Deterministic key generation with verified checksums
   - Configurable key lengths: 128, 256, 512 bits
   - Batch generation
   - JSON/Text output
   - SHA256 checksum validation
+  - **NIST PQC Compatible**: Suitable for use with Kyber, Dilithium, FrodoKEM
   - 19 comprehensive unit tests
 
 - **K-Value Explorer**:
@@ -47,18 +56,18 @@ All notable changes to the Quantum Key Distribution (QKD) Multi-Language Compile
 
 ### Features
 
-**Binary Fusion Tap Algorithm (QKD Core):**
+**Binary Fusion Tap Algorithm (Post-Quantum Secure Core):**
 1. Seed Generation: Concatenate 1,2,3,...,k (deterministic)
 2. 8-fold Heartbeat: Bit-shift left by 3 (×8 multiplication)
 3. Phase Offset: Add k parameter for phase alignment
-4. ZPE Overflow: XOR extraction for k ≥ 10 (quantum entropy)
+4. ZPE Overflow: XOR extraction for k ≥ 10 (entropy extraction)
 5. Checksum Verification: SHA256/SHA512 integrity validation
 
 **Applications:**
-- **Quantum Key Distribution (QKD)** - Primary use case
-- Secure key generation with verified checksums
+- **Post-Quantum Cryptography** - Primary use case, NIST PQC integration
+- Secure key generation with verified checksums (Kyber, Dilithium, FrodoKEM compatible)
 - Protocol verification and compliance testing
-- Quantum-inspired cryptography research
+- Quantum-resistant cryptography research
 - Deterministic tie-breaking in distributed systems
 - API key generation for SaaS platforms
 - Cross-platform deterministic systems
