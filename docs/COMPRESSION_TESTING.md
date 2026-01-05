@@ -414,7 +414,7 @@ Potential areas for enhancement:
 
 ### Test Suite Location
 - **File**: `test_compression_capacity.py`
-- **Location**: `/home/runner/work/seed/seed/test_compression_capacity.py`
+- **Location**: Repository root directory
 
 ### Running Tests
 

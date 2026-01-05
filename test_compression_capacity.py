@@ -16,15 +16,17 @@ The seed-based approach works by:
 
 import unittest
 import sys
+import os
 import gzip
 import bz2
 import lzma
+import math
 import time
 import hashlib
 from typing import Tuple, Dict, List
 
 # Add repository root to path for imports
-sys.path.insert(0, '/home/runner/work/seed/seed')
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from qkd.algorithms.universal_qkd import universal_qkd_generator
 
 
@@ -66,8 +68,10 @@ class TestCompressionCapacity(unittest.TestCase):
         if method == 'seed':
             # For seed-based compression, we only store the seed (32 bytes)
             # The data can be regenerated deterministically
+            # Note: compressed_data is not used for seed method as the seed itself
+            # is stored separately and is always 32 bytes
             compressed_size = self.seed_size
-            compressed_data = b'seed'  # Placeholder
+            compressed_data = b''  # Empty as seed is stored separately
         elif method == 'gzip':
             compressed_data = gzip.compress(data, compresslevel=9)
             compressed_size = len(compressed_data)
@@ -175,7 +179,8 @@ class TestCompressionCapacity(unittest.TestCase):
     def test_large_data_compression(self):
         """Test compression for large dataset (10MB = ~640K keys)."""
         print("\n=== Testing Large Data (10MB) ===")
-        num_keys = 655360  # 655,360 keys * 16 bytes = 10,485,760 bytes
+        # Calculate number of keys needed for 10 MB: 10 * 1024 * 1024 / 16
+        num_keys = 10 * 1024 * 1024 // 16  # 655,360 keys * 16 bytes = 10,485,760 bytes
         
         print(f"Generating {num_keys} keys...")
         start_gen = time.time()
@@ -301,7 +306,6 @@ class TestCompressionCapacity(unittest.TestCase):
         data = self.generate_data_from_seed(num_keys)
         
         # Calculate Shannon entropy
-        import math
         byte_counts = [0] * 256
         for byte in data:
             byte_counts[byte] += 1
