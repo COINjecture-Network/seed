@@ -413,8 +413,6 @@ class TestFrameworkIntegration(unittest.TestCase):
     
     def test_low_discrepancy_validation(self):
         """Test low-discrepancy validation."""
-    def test_low_discrepancy_validation(self):
-        """Test low-discrepancy validation."""
         results = validate_framework()
         ld_val = results['low_discrepancy']
         
