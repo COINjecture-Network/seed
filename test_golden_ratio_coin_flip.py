@@ -629,7 +629,6 @@ class TestSummaryResults(unittest.TestCase):
         
         # Equidistribution is already verified in test #1, but verify here too
         fractional_sequence = generator.generate_fractional_sequence(10000)
-        from src.gq.golden_ratio_coin_flip import EquidistributionValidator
         ks_test = EquidistributionValidator.kolmogorov_smirnov_test(fractional_sequence)
         self.assertTrue(ks_test['passed'],
                        f"KS test failed: D={ks_test['ks_statistic']:.6f}")
@@ -642,7 +641,6 @@ class TestSummaryResults(unittest.TestCase):
         print(f"  Balance: {balance['heads_ratio']:.6f} [PASS]")
         print(f"  KS statistic: {ks_test['ks_statistic']:.6f} [PASS]")
         print(f"  See docs/GOLDEN_RATIO_COIN_FLIP_ANALYSIS.md for explanation")
-        print(f"  Max autocorr: {autocorr['max_autocorr']:.6f}")
     
     def test_5_performance_convergence(self):
         """Test #5: Validate performance metrics and convergence."""
