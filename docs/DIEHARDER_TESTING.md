@@ -93,6 +93,16 @@ python scripts/dieharder_test.py \
   --output comprehensive_results.txt
 ```
 
+### Test Data Generation Only (No Dieharder Required)
+
+```bash
+# Useful for development/testing without Dieharder installed
+python scripts/dieharder_test.py \
+  --generate-only \
+  --size 5MB
+```
+
+
 ## Usage Guide
 
 ### Command-Line Options
@@ -105,6 +115,7 @@ python scripts/dieharder_test.py \
 | `--size` | `10MB` | Amount of data to generate (e.g., 5MB, 100MB, 1GB) |
 | `--output` | `dieharder_results.txt` | Output file for test results |
 | `--quiet` | False | Suppress verbose output |
+| `--generate-only` | False | Only generate and validate data without running Dieharder (useful for testing) |
 
 ### Available Generators
 
@@ -193,6 +204,29 @@ python scripts/dieharder_test.py \
 | Rigorous | 100MB-1GB | 1-4 hours |
 
 **Note**: Larger data sizes provide more statistical power but take longer to generate and test.
+
+### Testing Without Dieharder (Generate-Only Mode)
+
+For development and testing environments where Dieharder is not installed, you can use the `--generate-only` flag to test data generation without running statistical tests:
+
+```bash
+# Test Universal QKD data generation
+python scripts/dieharder_test.py --generate-only --size 1MB
+
+# Test NIST PQC data generation
+python scripts/dieharder_test.py \
+  --generate-only \
+  --generator nist_pqc \
+  --algorithm kyber768 \
+  --size 2MB
+```
+
+This mode:
+- ✅ Validates that data generation works correctly
+- ✅ Verifies the correct amount of data is generated
+- ✅ Does not require Dieharder installation
+- ✅ Useful for CI/CD testing and development
+- ✅ Fast feedback on generator functionality
 
 ## Understanding Results
 

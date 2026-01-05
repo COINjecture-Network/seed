@@ -67,15 +67,18 @@ class DieharderTester:
         'sts_serial': 102
     }
     
-    def __init__(self, verbose: bool = True):
+    def __init__(self, verbose: bool = True, skip_dieharder_check: bool = False):
         """
         Initialize Dieharder tester.
         
         Args:
             verbose: Print detailed output during testing
+            skip_dieharder_check: Skip checking if Dieharder is installed (for testing data generation only)
         """
         self.verbose = verbose
-        self._check_dieharder_installed()
+        self.skip_dieharder_check = skip_dieharder_check
+        if not skip_dieharder_check:
+            self._check_dieharder_installed()
         
     def _check_dieharder_installed(self):
         """Check if Dieharder is installed and available."""
@@ -376,6 +379,11 @@ def main():
         action='store_true',
         help='Suppress verbose output'
     )
+    parser.add_argument(
+        '--generate-only',
+        action='store_true',
+        help='Only generate and validate data without running Dieharder tests (useful for testing)'
+    )
     
     args = parser.parse_args()
     
@@ -408,11 +416,14 @@ def main():
         print(f"Algorithm: {algorithm.value}")
     print(f"Test Suite: {args.tests}")
     print(f"Data Size: {size_bytes:,} bytes ({args.size})")
-    print(f"Output File: {args.output}")
+    if not args.generate_only:
+        print(f"Output File: {args.output}")
+    else:
+        print("Mode: Generate data only (no Dieharder tests)")
     print("="*60)
     
     # Create tester
-    tester = DieharderTester(verbose=not args.quiet)
+    tester = DieharderTester(verbose=not args.quiet, skip_dieharder_check=args.generate_only)
     
     # Generate random data
     data = tester.generate_random_data(
@@ -420,6 +431,20 @@ def main():
         size_bytes,
         algorithm
     )
+    
+    if args.generate_only:
+        # Just validate data generation
+        print("\n" + "="*60)
+        print("Data Generation Summary")
+        print("="*60)
+        print(f"Generated: {len(data):,} bytes")
+        print(f"Expected: {size_bytes:,} bytes")
+        if len(data) == size_bytes:
+            print("✓ Data generation successful!")
+            return 0
+        else:
+            print("❌ Data generation size mismatch!")
+            return 1
     
     # Run tests
     results = tester.run_dieharder_test(

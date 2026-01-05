@@ -70,7 +70,7 @@ def test_dieharder_components():
     print("Testing Dieharder Integration Components")
     print("="*60)
     
-    from dieharder_test import parse_size
+    from dieharder_test import parse_size, DieharderTester
     from gq import UniversalQKD, generate_hybrid_key, PQCAlgorithm
     
     # Test size parsing
@@ -80,8 +80,15 @@ def test_dieharder_components():
     assert parse_size("5KB") == 5 * 1024
     print("   ✓ Size parsing works correctly")
     
+    # Test DieharderTester with generate-only mode
+    print("\n2. Testing DieharderTester (generate-only mode)...")
+    tester = DieharderTester(verbose=False, skip_dieharder_check=True)
+    data = tester.generate_random_data('universal_qkd', 1024)
+    assert len(data) == 1024
+    print(f"   ✓ Generated {len(data)} bytes with DieharderTester")
+    
     # Test data generation - Universal QKD
-    print("\n2. Testing Universal QKD data generation...")
+    print("\n3. Testing Universal QKD data generation...")
     generator = UniversalQKD()
     crypto_data = bytearray()
     for i in range(10):
@@ -91,7 +98,7 @@ def test_dieharder_components():
     print(f"   ✓ Generated {len(crypto_data)} bytes from Universal QKD")
     
     # Test data generation - NIST PQC
-    print("\n3. Testing NIST PQC data generation...")
+    print("\n4. Testing NIST PQC data generation...")
     crypto_data = bytearray()
     for i in range(5):
         det_key, pqc_seed = generate_hybrid_key(PQCAlgorithm.KYBER768)
