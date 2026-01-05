@@ -36,6 +36,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from tests.validate_entropy_source import compute_e_overflow
 
 
+# Default constants
+DEFAULT_DIEHARDER_SAMPLES = 10000000  # 10M samples = 40MB for comprehensive testing
+
+
 def generate_dieharder_format(n_samples: int) -> bytes:
     """
     Generate data in format suitable for Dieharder testing.

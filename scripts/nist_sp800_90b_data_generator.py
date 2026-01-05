@@ -37,6 +37,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from tests.validate_entropy_source import compute_e_overflow
 
 
+# Default constants
+DEFAULT_NIST_SAMPLES = 1000000  # Default number of samples for NIST testing (1M samples = 8MB)
+
+
 def generate_e_overflow_samples(n_samples: int) -> bytes:
     """
     Generate E overflow samples as raw binary data.
@@ -128,8 +132,8 @@ NIST Tool Installation:
         """
     )
     
-    parser.add_argument('--samples', type=int, default=1000000,
-                       help='Number of samples to generate (default: 1000000)')
+    parser.add_argument('--samples', type=int, default=DEFAULT_NIST_SAMPLES,
+                       help=f'Number of samples to generate (default: {DEFAULT_NIST_SAMPLES})')
     parser.add_argument('--output', type=str,
                        help='Output filename for binary data')
     parser.add_argument('--bits', action='store_true',

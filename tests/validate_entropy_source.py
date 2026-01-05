@@ -37,8 +37,14 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 
 # Constants
 PHI = (1 + math.sqrt(5)) / 2  # Golden ratio
-EPSILON_64 = 2.220446049250313e-16  # IEEE 754 double precision machine epsilon
+EPSILON_64 = sys.float_info.epsilon  # IEEE 754 double precision machine epsilon
 PI_OVER_4 = math.pi / 4  # Step size for 8-fold division
+
+# Test thresholds and constants
+E_MAGNITUDE_UPPER_BOUND = 1e-15  # E should be smaller than this
+E_MAGNITUDE_LOWER_BOUND = 1e-17  # E should be larger than this
+MIN_ENTROPY_THRESHOLD = 20  # bits - low entropy threshold for deterministic data
+DEFAULT_NIST_SAMPLES = 1000000  # Default number of samples for NIST testing
 
 
 def compute_e_overflow(start_angle: float, step_angle: float = PI_OVER_4, steps: int = 8) -> float:
@@ -191,31 +197,31 @@ class TestKnownAnswerTests(unittest.TestCase):
         # Known answer test vectors (computed on reference platform)
         # Note: E values may vary significantly across platforms due to IEEE 754
         # implementation details and different transcendental function implementations
+        # These are approximate reference values - actual test validates order of magnitude
+        REFERENCE_E_VALUE = 4.440892098500626e-16  # Typical E magnitude (order of magnitude)
+        
         known_vectors = [
-            (0.0, 4.440892098500626e-16),  # angle, expected E (approximate)
-            (1.0, 4.440892098500626e-16),
-            (PHI, 4.440892098500626e-16),
+            (0.0, REFERENCE_E_VALUE),  # angle, expected E (approximate reference)
+            (1.0, REFERENCE_E_VALUE),
+            (PHI, REFERENCE_E_VALUE),
         ]
         
         for angle, expected_e in known_vectors:
             computed_e = compute_e_overflow(angle)
             
-            # Allow significant tolerance for different IEEE 754 implementations
-            # E values should be similar order of magnitude (within factor of 2)
-            relative_error = abs(computed_e - expected_e) / expected_e if expected_e > 0 else 0
-            
             # Main validation: E should be O(10^-16) like machine epsilon
-            self.assertLess(computed_e, 1e-15,
+            self.assertLess(computed_e, E_MAGNITUDE_UPPER_BOUND,
                           f"E overflow is too large for angle {angle}\n"
                           f"E should be O(10^-16), got {computed_e}")
-            self.assertGreater(computed_e, 1e-17,
+            self.assertGreater(computed_e, E_MAGNITUDE_LOWER_BOUND,
                              f"E overflow is too small for angle {angle}\n"
                              f"E should be O(10^-16), got {computed_e}")
             
             # Document the variation but don't fail on it
+            relative_error = abs(computed_e - expected_e) / expected_e if expected_e > 0 else 0
             if relative_error > 0.5:
                 print(f"\nNote: E value variation for angle {angle}:")
-                print(f"  Expected: {expected_e}")
+                print(f"  Reference: {expected_e}")
                 print(f"  Computed: {computed_e}")
                 print(f"  Relative error: {relative_error:.1%}")
                 print(f"  This is acceptable platform variation.")
@@ -352,8 +358,9 @@ class TestMinEntropyEstimation(unittest.TestCase):
         
         # For true 64-bit random, min-entropy should be close to 64
         # Low min-entropy indicates predictability
-        self.assertLess(min_entropy, 20,
-                       "High min-entropy suggests E is not as deterministic as claimed")
+        self.assertLess(min_entropy, MIN_ENTROPY_THRESHOLD,
+                       f"Min-entropy unexpectedly high: {min_entropy:.2f} bits. "
+                       f"Expected < {MIN_ENTROPY_THRESHOLD} bits for deterministic data")
 
 
 class TestSeededPredictionAttack(unittest.TestCase):
