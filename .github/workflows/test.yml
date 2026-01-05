@@ -1,4 +1,4 @@
-name: Golden Quantum Protocol Tests
+name: GoldenSeed Tests
 
 on:
   push:
@@ -37,7 +37,7 @@ jobs:
       run: |
         python -m unittest test_gqs1 -v
 
-    - name: Run Universal QKD unit tests
+    - name: Run Universal stream generator unit tests
       run: |
         python -m unittest test_universal_qkd -v
 
@@ -61,17 +61,17 @@ jobs:
       run: |
         python -m unittest test_nist_sts_integration -v
 
-    - name: Verify GCP-1 first key matches specification
+    - name: Verify first stream matches specification
       run: |
         FIRST_KEY=$(python -c "from gq import generate_universal_keys; print(generate_universal_keys(1)[0])")
         EXPECTED="3c732e0d04dac163a5cc2b15c7caf42c"
         if [ "$FIRST_KEY" != "$EXPECTED" ]; then
-          echo "ERROR: GCP-1 first key mismatch!"
+          echo "ERROR: First stream mismatch!"
           echo "Expected: $EXPECTED"
           echo "Got: $FIRST_KEY"
           exit 1
         fi
-        echo "✓ GCP-1 first key validated: $FIRST_KEY"
+        echo "✓ First stream validated: $FIRST_KEY"
 
     - name: Verify GQS-1 first vector matches specification
       run: |
@@ -95,15 +95,15 @@ jobs:
         with open('tests/test_vectors.json', 'r') as f:
             reference = json.load(f)
 
-        # Generate keys and compare
-        gcp1_keys = generate_universal_keys(10)
+        # Generate streams and compare
+        universal_keys = generate_universal_keys(10)
         gqs1_keys = generate_gqs1_vectors(10)
 
-        assert gcp1_keys == reference['protocols']['GCP-1']['test_vectors'], 'GCP-1 vectors mismatch'
+        assert universal_keys == reference['protocols']['GCP-1']['test_vectors'], 'Universal stream vectors mismatch'
         assert gqs1_keys == reference['protocols']['GQS-1']['test_vectors'], 'GQS-1 vectors mismatch'
 
         print('✓ All test vectors validated against reference')
-        print(f'  GCP-1: {len(gcp1_keys)} keys verified')
+        print(f'  Universal streams: {len(universal_keys)} verified')
         print(f'  GQS-1: {len(gqs1_keys)} vectors verified')
         "
 
@@ -134,7 +134,7 @@ jobs:
 
     - name: Verify zero dependencies
       run: |
-        pip list --format=freeze | grep -v "^golden-quantum" | grep -v "^pip" | grep -v "^setuptools" | wc -l | grep "^0$" || \
+        pip list --format=freeze | grep -v "^golden-seed" | grep -v "^pip" | grep -v "^setuptools" | wc -l | grep "^0$" || \
         echo "Note: Dev environment may have additional packages"
 
   security:
