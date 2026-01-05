@@ -309,14 +309,14 @@ def parse_size(size_str: str) -> int:
     """
     size_str = size_str.upper().strip()
     
-    multipliers = {
-        'B': 1,
-        'KB': 1024,
-        'MB': 1024 * 1024,
-        'GB': 1024 * 1024 * 1024
-    }
+    multipliers = [
+        ('GB', 1024 * 1024 * 1024),
+        ('MB', 1024 * 1024),
+        ('KB', 1024),
+        ('B', 1),
+    ]
     
-    for suffix, multiplier in multipliers.items():
+    for suffix, multiplier in multipliers:
         if size_str.endswith(suffix):
             value = float(size_str[:-len(suffix)])
             return int(value * multiplier)
