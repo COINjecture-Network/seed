@@ -47,6 +47,17 @@ from .nist_pqc import (
     get_algorithm_info,
 )
 
+from .golden_ratio_coin_flip import (
+    GoldenRatioCoinFlip,
+    EquidistributionValidator,
+    CoinFlipValidator,
+    QuasirandomnessValidator,
+    PerformanceMetricsValidator,
+    fractional_part,
+    comprehensive_validation,
+    PHI,
+)
+
 __all__ = [
     "UniversalQKD",
     "generate_universal_keys",
@@ -64,6 +75,15 @@ __all__ = [
     "generate_sphincs_seed",
     "validate_pqc_seed_entropy",
     "get_algorithm_info",
+    # Golden Ratio Coin Flip
+    "GoldenRatioCoinFlip",
+    "EquidistributionValidator",
+    "CoinFlipValidator",
+    "QuasirandomnessValidator",
+    "PerformanceMetricsValidator",
+    "fractional_part",
+    "comprehensive_validation",
+    "PHI",
 ]
 
 __version__ = "1.0.0"
