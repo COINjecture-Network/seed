@@ -56,21 +56,25 @@ import struct
 from typing import Iterator, List
 
 # Mathematical constants as seeds (IEEE 754 double precision, little-endian)
-# These can be used as alternative seeds for different applications
+# These can be used as alternative seeds for different applications by passing
+# to universal_qkd_generator(seed_hex=CONSTANT_HEX)
 
 # Golden Ratio: φ = (1 + √5)/2 ≈ 1.618033988749895
 GOLDEN_RATIO = 1.618033988749894848204586834365638117720309179805762862135
 GOLDEN_RATIO_HEX = "0000000000000000a8f4979b77e3f93fa8f4979b77e3f93fa8f4979b77e3f93f"
 
 # Pi: π ≈ 3.14159265358979323846
+# Usage: universal_qkd_generator(seed_hex=PI_HEX)
 PI = 3.141592653589793238462643383279502884197169399375105820974
 PI_HEX = struct.pack('<d', PI).hex() * 2  # Doubled to make 32 bytes
 
 # Euler's Number: e ≈ 2.71828182845904523536
+# Usage: universal_qkd_generator(seed_hex=E_HEX)
 E = 2.718281828459045235360287471352662497757247093699959574966
 E_HEX = struct.pack('<d', E).hex() * 2  # Doubled to make 32 bytes
 
 # Square Root of 2: √2 ≈ 1.41421356237309504880
+# Usage: universal_qkd_generator(seed_hex=SQRT2_HEX)
 SQRT2 = 1.414213562373095048801688724209698078569671875376948073176
 SQRT2_HEX = struct.pack('<d', SQRT2).hex() * 2  # Doubled to make 32 bytes
 
@@ -400,21 +404,21 @@ Protocol: Deterministic stream generation with basis matching and XOR folding
         }
 
         for i, key in enumerate(keys, 1):
-            key_entry = {
+            stream_entry = {
                 "index": i,
                 "hex": key
             }
             if args.binary:
                 key_bytes = bytes.fromhex(key)
                 binary_str = ''.join(format(byte, '08b') for byte in key_bytes)
-                key_entry["binary"] = binary_str
-            output_data["keys"].append(key_entry)
+                stream_entry["binary"] = binary_str
+            output_data["streams"].append(stream_entry)
 
         output_str = json.dumps(output_data, indent=2)
     else:
         output_lines = []
         if not args.quiet:
-            output_lines.append("Generated Keys:")
+            output_lines.append("Generated Streams:")
             output_lines.append("-" * 60)
 
         for i, key in enumerate(keys, 1):
@@ -423,10 +427,10 @@ Protocol: Deterministic stream generation with basis matching and XOR folding
             elif args.binary:
                 key_bytes = bytes.fromhex(key)
                 binary_str = ''.join(format(byte, '08b') for byte in key_bytes)
-                output_lines.append(f"Key {i:6d}: {key}")
-                output_lines.append(f"         Binary: {binary_str}")
+                output_lines.append(f"Stream {i:6d}: {key}")
+                output_lines.append(f"           Binary: {binary_str}")
             else:
-                output_lines.append(f"Key {i:6d}: {key}")
+                output_lines.append(f"Stream {i:6d}: {key}")
 
         output_str = "\n".join(output_lines)
 
