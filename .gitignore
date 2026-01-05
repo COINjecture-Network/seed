@@ -44,3 +44,10 @@ Cargo.lock
 
 # Go
 go.sum
+
+# OQS Integration build artifacts
+oqs/build/
+oqs/liboqs-install/
+oqs/kyber_test
+oqs/*.o
+oqs/test_report.txt
