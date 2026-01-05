@@ -51,3 +51,4 @@ data/*.bin
 results/*.json
 nist-sts/
 
+tests/quantum_seed_test_vectors.json
