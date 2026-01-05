@@ -20,8 +20,8 @@ These tests ensure cryptographic security standards are met for:
 from __future__ import annotations
 
 import math
-from typing import Dict, List, Tuple, Optional
 from collections import Counter
+from typing import Dict, List, Tuple, Optional
 
 
 class EntropyAnalyzer:

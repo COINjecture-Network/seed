@@ -19,6 +19,11 @@ from gq.nist_pqc import (
     PQCAlgorithm
 )
 
+# Entropy thresholds for testing
+MIN_DETERMINISTIC_KEY_ENTROPY = 3.0  # bits/byte for small deterministic keys
+MIN_AGGREGATE_ENTROPY = 7.0  # bits/byte for large aggregate samples
+MIN_PQC_SEED_ENTROPY = 4.5  # bits/byte for derived PQC seeds
+
 
 class TestEntropyAnalyzer(unittest.TestCase):
     """Test EntropyAnalyzer statistical methods."""
@@ -293,8 +298,8 @@ class TestUniversalQKDEntropy(unittest.TestCase):
         entropy = analyzer.shannon_entropy()
         
         # Single deterministic key may have lower entropy than random data
-        # but should still have reasonable diversity (>3.0 bits/byte)
-        self.assertGreater(entropy, 3.0)
+        # but should still have reasonable diversity
+        self.assertGreater(entropy, MIN_DETERMINISTIC_KEY_ENTROPY)
         self.assertEqual(len(key), 16)
     
     def test_universal_qkd_key_stream_entropy(self):
@@ -330,13 +335,13 @@ class TestNISTPQCEntropy(unittest.TestCase):
         # Test deterministic key - deterministic keys have lower per-key entropy
         det_analyzer = EntropyAnalyzer(det_key)
         det_entropy = det_analyzer.shannon_entropy()
-        self.assertGreater(det_entropy, 3.0)
+        self.assertGreater(det_entropy, MIN_DETERMINISTIC_KEY_ENTROPY)
         
         # Test PQC seed - derived seeds should have reasonable entropy
         # Note: 32-byte seeds will have lower per-byte entropy than larger samples
         pqc_analyzer = EntropyAnalyzer(pqc_seed)
         pqc_entropy = pqc_analyzer.shannon_entropy()
-        self.assertGreater(pqc_entropy, 4.5)
+        self.assertGreater(pqc_entropy, MIN_PQC_SEED_ENTROPY)
     
     def test_dilithium_seed_entropy(self):
         """Test entropy of Dilithium seed generation."""

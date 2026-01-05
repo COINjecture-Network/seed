@@ -18,19 +18,32 @@ import sys
 import os
 from datetime import datetime
 
-# Add src to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
+# Try importing from installed package first, fall back to local imports
+try:
+    from gq.entropy_testing import (
+        EntropyAnalyzer,
+        analyze_key_stream,
+        validate_zero_bias
+    )
+    from gq.universal_qkd import universal_qkd_generator
+    from gq.nist_pqc import (
+        generate_hybrid_key_stream,
+        PQCAlgorithm,
+    )
+except ImportError:
+    # Fallback: add src to path for development/script execution
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
+    from gq.entropy_testing import (
+        EntropyAnalyzer,
+        analyze_key_stream,
+        validate_zero_bias
+    )
+    from gq.universal_qkd import universal_qkd_generator
+    from gq.nist_pqc import (
+        generate_hybrid_key_stream,
+        PQCAlgorithm,
+    )
 
-from gq.entropy_testing import (
-    EntropyAnalyzer,
-    analyze_key_stream,
-    validate_zero_bias
-)
-from gq.universal_qkd import universal_qkd_generator
-from gq.nist_pqc import (
-    generate_hybrid_key_stream,
-    PQCAlgorithm,
-)
 import secrets
 
 
@@ -343,8 +356,10 @@ def main():
     try:
         report_content = generate_report()
         
-        # Save to docs directory
-        docs_dir = os.path.join(os.path.dirname(__file__), 'docs')
+        # Save to docs directory (relative to repository root)
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        repo_root = os.path.dirname(script_dir)  # Go up one level from scripts/
+        docs_dir = os.path.join(repo_root, 'docs')
         os.makedirs(docs_dir, exist_ok=True)
         
         report_path = os.path.join(docs_dir, 'ENTROPY_ANALYSIS.md')
