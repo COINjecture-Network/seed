@@ -104,58 +104,62 @@ def print_summary_report(summary):
 
 def generate_json_report(summary, output_path):
     """Generate JSON report file."""
+    # Determine compliance status based on actual test results
+    overall_status = 'COMPLIANT' if summary['success'] else 'NON-COMPLIANT'
+    standard_status = 'COMPLIANT' if summary['success'] else 'NON-COMPLIANT'
+    
     report = {
         'compliance_report': {
             'version': '1.0',
             'repository': 'beanapologist/seed',
             'timestamp': summary['timestamp'],
-            'overall_status': 'COMPLIANT' if summary['success'] else 'NON-COMPLIANT',
+            'overall_status': overall_status,
             'test_summary': summary,
             'standards_tested': [
                 {
                     'standard': 'NIST SP 800-22 Rev. 1a',
                     'description': 'Statistical Test Suite for RNGs',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'NIST SP 800-90B',
                     'description': 'Entropy Source Validation',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'FIPS 203',
                     'description': 'ML-KEM (Kyber)',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'FIPS 204',
                     'description': 'ML-DSA (Dilithium)',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'FIPS 205',
                     'description': 'SLH-DSA (SPHINCS+)',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'IEEE 754-2019',
                     'description': 'Floating-Point Arithmetic',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'FIPS 180-4',
                     'description': 'Secure Hash Standard',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'Quantum Mechanics',
                     'description': 'Unit circle, 8th roots of unity',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 },
                 {
                     'standard': 'Information Theory',
                     'description': 'Shannon entropy, statistical independence',
-                    'status': 'COMPLIANT'
+                    'status': standard_status
                 }
             ]
         }

@@ -97,7 +97,7 @@ The compliance tests can be integrated into continuous integration:
     python run_compliance_tests.py --report compliance_report.json
     
 - name: Upload Compliance Report
-  uses: actions/upload-artifact@v3
+  uses: actions/upload-artifact@v4
   with:
     name: compliance-report
     path: compliance_report.json

@@ -479,7 +479,7 @@ class TestCryptographicHashCompliance(unittest.TestCase):
         FIPS 180-4: Small input change causes large output change.
         """
         data1 = b"test data"
-        data2 = b"test datb"  # Single bit difference
+        data2 = b"test datb"  # Single character change (not single bit)
         
         hash1 = hashlib.sha256(data1).digest()
         hash2 = hashlib.sha256(data2).digest()
