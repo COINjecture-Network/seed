@@ -44,7 +44,6 @@ This software **SHALL NOT** be used for:
 - ❌ **Surveillance Systems**: Military surveillance, reconnaissance, intelligence gathering, or combat monitoring systems
 - ❌ **Defense Contracting**: Prime contractor or subcontractor work for military procurement contracts
 - ❌ **Autonomous Weapons**: Lethal autonomous weapons systems (LAWS) or autonomous military combat systems
-- ❌ **Military Organizations**: Weapon manufacturers, defense contractors, military intelligence, or private military companies
 
 🚫 **PROHIBITED ORGANIZATIONS:**
 

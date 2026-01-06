@@ -69,9 +69,10 @@ The Software is provided "AS IS" under GPL-3.0+. Any use of the Software in viol
 
 ### 2.4 Reporting Violations
 
-Suspected violations of these restrictions should be reported to:
-- **Email**: [See SECURITY.md for contact information]
+Suspected violations of these restrictions should be reported through one of the following channels:
 - **GitHub Issues**: https://github.com/beanapologist/seed/issues (for public disclosure)
+- **Security Contact**: See SECURITY.md for private vulnerability reporting contact information
+- **Repository Owner**: Contact the repository owner directly via GitHub: @beanapologist
 
 ## 3. Commercial Licensing
 
