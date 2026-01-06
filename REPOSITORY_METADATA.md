@@ -16,7 +16,7 @@ This description should be set in the GitHub repository settings to clearly comm
 **Recommended Topics for v3.0.0:**
 Add the following topics to the repository for optimal categorization and searchability:
 
-### Primary Purpose & Core Features
+### Primary Purpose and Core Features
 - `deterministic` - Core characteristic
 - `procedural-generation` - Primary use case
 - `prng` - Pseudo-random number generation
@@ -29,7 +29,7 @@ Add the following topics to the repository for optimal categorization and search
 - `deterministic-streams` - Stream generation
 - `seed-based` - Generation method
 
-### Use Cases & Applications
+### Use Cases and Applications
 - `game-development` - Gaming applications
 - `procedural-content` - Content generation
 - `testing` - Test data generation
@@ -49,7 +49,7 @@ Add the following topics to the repository for optimal categorization and search
 - `python` - Implementation language
 - `stateless` - Architecture
 
-### Licensing & Compliance
+### Licensing and Compliance
 - `public-good` - Open source availability
 - `gpl-3` - Open source license
 - `open-source` - Open source project
