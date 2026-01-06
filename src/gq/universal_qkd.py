@@ -55,6 +55,12 @@ import sys
 import struct
 from typing import Iterator, List
 
+
+def _double_pack_hex(value: float) -> str:
+    """Helper function to pack a float as hex and double it to 32 bytes."""
+    return struct.pack('<d', value).hex() * 2
+
+
 # Mathematical constants as seeds (IEEE 754 double precision, little-endian)
 # These can be used as alternative seeds for different applications by passing
 # to universal_qkd_generator(seed_hex=CONSTANT_HEX)
@@ -66,17 +72,17 @@ GOLDEN_RATIO_HEX = "0000000000000000a8f4979b77e3f93fa8f4979b77e3f93fa8f4979b77e3
 # Pi: π ≈ 3.14159265358979323846
 # Usage: universal_qkd_generator(seed_hex=PI_HEX)
 PI = 3.141592653589793238462643383279502884197169399375105820974
-PI_HEX = struct.pack('<d', PI).hex() * 2  # Doubled to make 32 bytes
+PI_HEX = _double_pack_hex(PI)
 
 # Euler's Number: e ≈ 2.71828182845904523536
 # Usage: universal_qkd_generator(seed_hex=E_HEX)
 E = 2.718281828459045235360287471352662497757247093699959574966
-E_HEX = struct.pack('<d', E).hex() * 2  # Doubled to make 32 bytes
+E_HEX = _double_pack_hex(E)
 
 # Square Root of 2: √2 ≈ 1.41421356237309504880
 # Usage: universal_qkd_generator(seed_hex=SQRT2_HEX)
 SQRT2 = 1.414213562373095048801688724209698078569671875376948073176
-SQRT2_HEX = struct.pack('<d', SQRT2).hex() * 2  # Doubled to make 32 bytes
+SQRT2_HEX = _double_pack_hex(SQRT2)
 
 
 # Expected SHA-256 checksum for the golden ratio seed

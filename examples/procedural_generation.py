@@ -12,13 +12,7 @@ Usage in Game Engines:
 - Unreal: Adapt to C++ using the C++ examples in releases/
 """
 
-import sys
-import os
-
-# Add parent directory to path for imports
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
-
-from src.gq.universal_qkd import universal_qkd_generator
+from gq import UniversalQKD
 
 
 class ProceduralWorldGenerator:
@@ -38,7 +32,7 @@ class ProceduralWorldGenerator:
         Args:
             world_seed_offset: Unique identifier for this world (0-n)
         """
-        self.generator = universal_qkd_generator()
+        self.generator = UniversalQKD()
         
         # Skip to world-specific position
         for _ in range(world_seed_offset):
@@ -102,7 +96,7 @@ class ProceduralLevelGenerator:
     """Generate infinite procedural game levels."""
     
     def __init__(self):
-        self.generator = universal_qkd_generator()
+        self.generator = UniversalQKD()
     
     def generate_level(self, level_number):
         """
