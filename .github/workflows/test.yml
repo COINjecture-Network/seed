@@ -212,6 +212,8 @@ jobs:
   scalability:
     name: Scalability and Performance Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v6
@@ -241,6 +243,8 @@ jobs:
   extreme-tests:
     name: Extreme Volume and Velocity Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v6

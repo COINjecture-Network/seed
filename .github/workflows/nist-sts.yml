@@ -16,6 +16,8 @@ jobs:
   nist-sts-universal:
     name: NIST STS - Universal Stream Generator
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     
     steps:
     - name: Checkout code
