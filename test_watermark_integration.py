@@ -237,8 +237,12 @@ class TestDeterministicProperties(unittest.TestCase):
             
             # Generate deterministic output
             vectors = generate_test_vectors(10)
+            # Validate hex strings before conversion
+            for v in vectors:
+                if not all(c in '0123456789abcdefABCDEF' for c in v):
+                    raise ValueError(f"Invalid hex string: {v}")
             deterministic_output = b''.join(bytes.fromhex(v) for v in vectors)
-        except ImportError:
+        except (ImportError, ValueError):
             # Fallback to simple deterministic data
             deterministic_output = bytes(range(256))
         

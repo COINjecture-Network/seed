@@ -14,6 +14,7 @@ Usage:
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -187,7 +188,6 @@ Return Codes:
     args = parser.parse_args()
     
     # Get secret from args or environment
-    import os
     secret = args.secret or os.environ.get('WATERMARK_SECRET')
     
     if not secret:

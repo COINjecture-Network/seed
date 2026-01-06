@@ -97,26 +97,6 @@ class WatermarkData:
                 f"timestamp={self.timestamp})")
 
 
-def _derive_key(secret: str, salt: bytes) -> bytes:
-    """
-    Derive a cryptographic key from a secret using PBKDF2.
-    
-    Args:
-        secret: Secret passphrase
-        salt: Random salt bytes
-        
-    Returns:
-        Derived key bytes
-    """
-    return hashlib.pbkdf2_hmac(
-        'sha256',
-        secret.encode('utf-8'),
-        salt,
-        100000,  # iterations
-        dklen=32
-    )
-
-
 def _calculate_signature(data: bytes, secret: str) -> bytes:
     """
     Calculate HMAC signature for watermark data.

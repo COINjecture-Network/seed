@@ -16,6 +16,7 @@ Usage:
 """
 
 import argparse
+import os
 import sys
 from pathlib import Path
 
@@ -164,7 +165,6 @@ Compliance:
     args = parser.parse_args()
     
     # Get secret from args or environment
-    import os
     secret = args.secret or os.environ.get('WATERMARK_SECRET')
     
     if not secret:
