@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Test Data Teleportation and Compression Demonstrations
+Test Seed-Based Distribution and Compression Demonstrations
 
-This test validates the examples in the data teleportation demo script
+This test validates the examples in the seed distribution demo script
 to ensure they work correctly and demonstrate the claimed properties.
 """
 
@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src
 from gq import UniversalQKD, GQS1
 
 
-class TestDataTeleportation(unittest.TestCase):
-    """Test data teleportation capabilities."""
+class TestSeedBasedDistribution(unittest.TestCase):
+    """Test seed-based distribution capabilities."""
     
     def test_cross_location_identical_generation(self):
         """Test that identical data is generated at different 'locations'."""
@@ -46,8 +46,8 @@ class TestDataTeleportation(unittest.TestCase):
         self.assertEqual(checksum_a, checksum_b, "Checksums should match")
         self.assertEqual(checksum_b, checksum_c, "Checksums should match")
     
-    def test_zero_bandwidth_teleportation(self):
-        """Test that no data transfer is needed for teleportation."""
+    def test_zero_bandwidth_distribution(self):
+        """Test that no data transfer is needed for seed-based distribution."""
         num_keys = 100
         
         # Calculate theoretical bandwidth
@@ -346,7 +346,7 @@ def run_tests():
     suite = unittest.TestSuite()
     
     # Add all test cases
-    suite.addTests(loader.loadTestsFromTestCase(TestDataTeleportation))
+    suite.addTests(loader.loadTestsFromTestCase(TestSeedBasedDistribution))
     suite.addTests(loader.loadTestsFromTestCase(TestExtremeCompression))
     suite.addTests(loader.loadTestsFromTestCase(TestDataReproducibility))
     suite.addTests(loader.loadTestsFromTestCase(TestBandwidthSavings))
@@ -361,10 +361,10 @@ def run_tests():
 
 if __name__ == '__main__':
     print("=" * 70)
-    print("DATA TELEPORTATION AND COMPRESSION TEST SUITE")
+    print("SEED-BASED DISTRIBUTION AND COMPRESSION TEST SUITE")
     print("=" * 70)
     print()
-    print("Testing data teleportation and extreme compression capabilities...")
+    print("Testing seed-based distribution and extreme compression capabilities...")
     print()
     
     result = run_tests()

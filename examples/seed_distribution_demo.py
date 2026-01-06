@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Data Teleportation and Extreme Compression Demonstration
+Seed-Based Distribution and Extreme Compression Demonstration
 
 This script provides interactive demonstrations of:
-1. Data teleportation - regenerating identical data at different locations
+1. Seed-based distribution - regenerating identical data at different locations
 2. Extreme compression - storing seeds instead of full data
 3. Bandwidth savings - comparing transfer sizes
 4. Privacy protection - minimal network exposure
@@ -11,7 +11,7 @@ This script provides interactive demonstrations of:
 ⚠️ NOT FOR CRYPTOGRAPHY: This is for demonstration and educational purposes only.
 
 Usage:
-    python3 data_teleportation_demo.py [--demo all|teleportation|compression|bandwidth|privacy]
+    python3 seed_distribution_demo.py [--demo all|distribution|compression|bandwidth|privacy]
 """
 
 import sys
@@ -59,9 +59,9 @@ def format_bytes(num_bytes):
     return f"{num_bytes:.1f} PB"
 
 
-def demo_data_teleportation():
-    """Demonstrate data teleportation across multiple locations."""
-    print_section("DEMO 1: Data Teleportation")
+def demo_seed_based_distribution():
+    """Demonstrate seed-based distribution across multiple locations."""
+    print_section("DEMO 1: Seed-Based Distribution")
     
     print("Concept: Generate identical data at different 'locations' without")
     print("physically transferring the data. Only the seed identifier is shared.")
@@ -113,7 +113,7 @@ def demo_data_teleportation():
     actual_data_transferred = 0  # Seed is implicit in algorithm
     print(f"Seed data transferred: {actual_data_transferred} bytes")
     print(f"Data generated at each location: {format_bytes(len(reference_data))}")
-    print(f"Total data 'teleported': {format_bytes(len(reference_data) * len(locations))}")
+    print(f"Total data distributed: {format_bytes(len(reference_data) * len(locations))}")
     print()
     
     traditional_bandwidth = len(reference_data) * len(locations)
@@ -127,7 +127,7 @@ def demo_data_teleportation():
         print(f"Bandwidth savings: Infinite (zero transfer)")
     
     print()
-    print("✓ Data successfully 'teleported' to all locations without physical transfer!")
+    print("✓ Data successfully distributed to all locations without physical transfer!")
 
 
 def demo_extreme_compression():
@@ -454,7 +454,7 @@ def demo_cross_location_sync():
 
 def run_all_demos():
     """Run all demonstrations."""
-    demo_data_teleportation()
+    demo_seed_based_distribution()
     demo_extreme_compression()
     demo_bandwidth_savings()
     demo_privacy_protection()
@@ -464,19 +464,19 @@ def run_all_demos():
 def main():
     """Main entry point."""
     parser = argparse.ArgumentParser(
-        description='Data Teleportation and Extreme Compression Demonstrations',
+        description='Seed-Based Distribution and Extreme Compression Demonstrations',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python3 data_teleportation_demo.py --demo all
-  python3 data_teleportation_demo.py --demo teleportation
-  python3 data_teleportation_demo.py --demo compression
+  python3 seed_distribution_demo.py --demo all
+  python3 seed_distribution_demo.py --demo distribution
+  python3 seed_distribution_demo.py --demo compression
         """
     )
     
     parser.add_argument(
         '--demo',
-        choices=['all', 'teleportation', 'compression', 'bandwidth', 'privacy', 'sync'],
+        choices=['all', 'distribution', 'compression', 'bandwidth', 'privacy', 'sync'],
         default='all',
         help='Which demonstration to run (default: all)'
     )
@@ -484,7 +484,7 @@ Examples:
     args = parser.parse_args()
     
     print("=" * 70)
-    print("  DATA TELEPORTATION & EXTREME COMPRESSION DEMONSTRATIONS")
+    print("  SEED-BASED DISTRIBUTION & EXTREME COMPRESSION DEMONSTRATIONS")
     print("  GoldenSeed - Deterministic High-Entropy Byte Streams")
     print("=" * 70)
     print()
@@ -496,8 +496,8 @@ Examples:
     try:
         if args.demo == 'all':
             run_all_demos()
-        elif args.demo == 'teleportation':
-            demo_data_teleportation()
+        elif args.demo == 'distribution':
+            demo_seed_based_distribution()
         elif args.demo == 'compression':
             demo_extreme_compression()
         elif args.demo == 'bandwidth':

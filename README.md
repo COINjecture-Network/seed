@@ -202,11 +202,11 @@ Adapters for NIST Post-Quantum Cryptography algorithms (for testing only).
 
 ---
 
-## Data Teleportation & Extreme Compression
+## Seed-Based Distribution & Extreme Compression
 
-GoldenSeed enables **data teleportation** and achieves **extreme compression ratios** through deterministic regeneration:
+GoldenSeed enables **efficient data distribution without physical transfer** and achieves **extreme compression ratios** through deterministic regeneration:
 
-### 🚀 Data Teleportation
+### 🚀 Seed-Based Distribution
 
 Generate identical data at different locations without physically transferring it:
 
@@ -224,7 +224,7 @@ data_b = b''.join([next(generator_b) for _ in range(655360)])
 assert data_a == data_b  # ✓ Identical without transfer!
 ```
 
-**Bandwidth used: 0 bytes** | **Data "teleported": 10 MB**
+**Bandwidth used: 0 bytes** | **Data distributed: 10 MB**
 
 ### 💾 Extreme Compression
 
@@ -246,7 +246,7 @@ Store only seeds (32 bytes) instead of full data:
 
 **Try it yourself:**
 ```bash
-python3 examples/data_teleportation_demo.py --demo all
+python3 examples/seed_distribution_demo.py --demo all
 ```
 
 📖 **Full Guide**: See [DATA_TELEPORTATION_AND_COMPRESSION.md](docs/DATA_TELEPORTATION_AND_COMPRESSION.md)
