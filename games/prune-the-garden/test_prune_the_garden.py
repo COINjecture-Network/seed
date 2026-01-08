@@ -329,10 +329,5 @@ class TestIntegration(unittest.TestCase):
         self.assertEqual(len(solutions), 0)
 
 
-def run_tests():
-    """Run all tests."""
-    unittest.main(argv=[''], exit=False, verbosity=2)
-
-
 if __name__ == "__main__":
     unittest.main()

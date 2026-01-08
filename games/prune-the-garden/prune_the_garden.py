@@ -39,7 +39,8 @@ def find_subset_sum(plants, target):
     
     def backtrack(index, current_subset, current_sum):
         """Recursive backtracking to find all solutions."""
-        # Found a solution
+        # Found a solution - add it and continue searching for more
+        # Note: We don't return here because we want to find ALL solutions
         if current_sum == target:
             solutions.append(current_subset[:])
         
