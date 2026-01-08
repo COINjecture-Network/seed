@@ -6,8 +6,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "npm run build:js",
-    "build:js": "echo 'Building JavaScript distribution...' && node build-js.js",
-    "test": "node test/test-binary-fusion-tap.js",
+    "build:js": "node build-js.js",
+    "test": "node test-js-package.js",
     "prepublishOnly": "npm run build"
   },
   "files": [
