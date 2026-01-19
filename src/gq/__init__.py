@@ -1,10 +1,10 @@
 """
-GoldenSeed - Deterministic High-Entropy Byte Streams
+GoldenSeed - Deterministic PRNG (Pseudo-Random Number Generator)
 
-⚠️ NOT FOR CRYPTOGRAPHY: This library generates deterministic pseudo-random
-streams and must NOT be used for cryptographic purposes.
+⚠️ NOT FOR CRYPTOGRAPHY: This is a PRNG that generates deterministic pseudo-random
+streams and must NOT be used for cryptographic purposes (passwords, keys, tokens, etc.).
 
-This package provides deterministic stream generation for:
+This PRNG is designed for:
 - Procedural content generation (games, simulations)
 - Reproducible test data and fixtures
 - Deterministic noise functions
@@ -12,7 +12,7 @@ This package provides deterministic stream generation for:
 - Space-efficient storage of procedural content
 
 Core Implementations:
-- Universal stream generator with deterministic output
+- Deterministic PRNG based on golden ratio seed
 - Test vector generation for cross-platform validation
 - Golden ratio-based deterministic sequences
 - Commercial licensing watermarking system

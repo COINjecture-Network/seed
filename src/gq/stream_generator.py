@@ -1,12 +1,12 @@
 """
-Universal Deterministic Stream Generator
+Deterministic PRNG (Pseudo-Random Number Generator)
 
-A production-grade deterministic byte stream generation system that produces
-synchronized output across systems. This implementation uses mathematical
-constant seeds with language-agnostic, endian-independent design.
+A production-grade deterministic PRNG that produces synchronized pseudo-random
+output across systems. This implementation uses mathematical constant seeds
+with language-agnostic, endian-independent design.
 
-⚠️ NOT FOR CRYPTOGRAPHY: This generates deterministic pseudo-random streams
-and must NOT be used for cryptographic purposes (passwords, keys, etc.).
+⚠️ NOT FOR CRYPTOGRAPHY: This is a PRNG that generates deterministic pseudo-random
+streams and must NOT be used for cryptographic purposes (passwords, keys, tokens, etc.).
 
 Suitable for: procedural generation, reproducible testing, deterministic
 simulations, consensus randomness, and space-efficient storage.
@@ -219,14 +219,13 @@ def xor_fold_output(selected_bits: List[int]) -> bytes:
 
 def golden_stream_generator(seed_hex: str = HEX_SEED) -> Iterator[bytes]:
     """
-    Golden ratio stream generator - infinite stream of 128-bit outputs.
+    Deterministic PRNG - infinite stream of 128-bit pseudo-random outputs.
 
-    ⚠️ NOT FOR CRYPTOGRAPHY: This generates deterministic pseudo-random streams.
+    ⚠️ NOT FOR CRYPTOGRAPHY: This is a PRNG for procedural generation only.
 
-    This generator produces an infinite stream of deterministic bytes using
-    a mathematical constant seed as starting point. Each output is generated
-    through hash-based entropy generation, bit selection filtering,
-    and XOR folding.
+    This PRNG produces an infinite stream of deterministic pseudo-random bytes
+    using a mathematical constant seed as starting point. Each output is generated
+    through hash-based entropy generation, bit selection filtering, and XOR folding.
 
     Stream generation process:
     1. Initialize state from seed using SHA-256
@@ -298,10 +297,10 @@ def main():
     Main function for CLI interface.
     """
     parser = argparse.ArgumentParser(
-        description="Golden Stream Generator - Deterministic byte stream generation for procedural content",
+        description="GoldenSeed PRNG - Deterministic pseudo-random number generator for procedural content",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-⚠️  NOT FOR CRYPTOGRAPHY: Use only for procedural generation, testing, and simulations.
+⚠️  NOT FOR CRYPTOGRAPHY: This is a PRNG for procedural generation, testing, and simulations only.
 
 Examples:
   %(prog)s                          # Generate 10 streams (default)
@@ -362,10 +361,10 @@ Protocol: Deterministic stream generation with bit selection and XOR folding
     actual_checksum = hashlib.sha256(seed).hexdigest()
 
     if not args.quiet:
-        print("Golden Stream Generator", file=sys.stderr)
+        print("GoldenSeed PRNG (Pseudo-Random Number Generator)", file=sys.stderr)
         print("=" * 60, file=sys.stderr)
         print(file=sys.stderr)
-        print(f"⚠️  NOT FOR CRYPTOGRAPHY - For procedural generation only", file=sys.stderr)
+        print(f"⚠️  NOT FOR CRYPTOGRAPHY - PRNG for procedural generation only", file=sys.stderr)
         print(file=sys.stderr)
         print(f"Seed: {HEX_SEED}", file=sys.stderr)
         print(f"Expected Checksum: {EXPECTED_CHECKSUM}", file=sys.stderr)
@@ -400,8 +399,8 @@ Protocol: Deterministic stream generation with bit selection and XOR folding
     # Format output
     if args.json:
         output_data = {
-            "description": "GoldenSeed - Deterministic Stream Generator",
-            "warning": "NOT FOR CRYPTOGRAPHY",
+            "description": "GoldenSeed PRNG - Deterministic Pseudo-Random Number Generator",
+            "warning": "NOT FOR CRYPTOGRAPHY - PRNG for procedural generation only",
             "seed": HEX_SEED,
             "checksum": EXPECTED_CHECKSUM,
             "num_streams": len(streams),

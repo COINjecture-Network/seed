@@ -1,10 +1,10 @@
 """
-Golden Stream Generator CLI
+GoldenSeed PRNG CLI
 
-Command-line interface for the deterministic stream generator.
+Command-line interface for the deterministic PRNG (Pseudo-Random Number Generator).
 
-⚠️ NOT FOR CRYPTOGRAPHY: This generates deterministic pseudo-random streams
-for procedural generation, testing, and simulations only.
+⚠️ NOT FOR CRYPTOGRAPHY: This is a PRNG that generates deterministic pseudo-random
+streams for procedural generation, testing, and simulations only.
 
 Usage:
     gq-universal                     # Generate 10 streams (default)

@@ -1,6 +1,6 @@
 # 🌟 GoldenSeed
 
-**Infinite reproducible high-entropy streams from tiny fixed seeds**
+**Deterministic PRNG (Pseudo-Random Number Generator) — Infinite reproducible streams from tiny seeds**
 
 [![GitHub Stars](https://img.shields.io/github/stars/beanapologist/seed?style=for-the-badge&logo=github&color=yellow)](https://github.com/beanapologist/seed/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/beanapologist/seed?style=for-the-badge&logo=github&color=blue)](https://github.com/beanapologist/seed/network/members)
@@ -13,9 +13,9 @@
 
 ## 🎯 What is GoldenSeed?
 
-GoldenSeed is a **deterministic high-entropy byte stream generator** that creates infinite, reproducible sequences from tiny fixed seeds. Perfect for **procedural generation**, **reproducible testing**, **deterministic simulations**, and **space-efficient storage**.
+GoldenSeed is a **deterministic PRNG (Pseudo-Random Number Generator)** that creates infinite, reproducible pseudo-random sequences from tiny fixed seeds. Perfect for **procedural generation**, **reproducible testing**, **deterministic simulations**, and **space-efficient storage**.
 
-> ⚠️ **NOT FOR CRYPTOGRAPHY** — GoldenSeed is designed for procedural content generation and deterministic simulations, not cryptographic applications.
+> ⚠️ **NOT FOR CRYPTOGRAPHY** — GoldenSeed is a PRNG designed for procedural content generation and deterministic simulations, NOT for cryptographic applications (passwords, keys, tokens, etc.).
 
 ### ✨ Key Features
 
