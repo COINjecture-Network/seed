@@ -48,10 +48,10 @@ pip install golden-seed
 ### Basic Usage
 
 ```python
-from gq import UniversalQKD
+from gq import GoldenStreamGenerator
 
 # Create a generator (uses built-in golden ratio seed)
-generator = UniversalQKD()
+generator = GoldenStreamGenerator()
 
 # Generate infinite deterministic bytes
 chunk1 = next(generator)  # 16 bytes
@@ -59,19 +59,19 @@ chunk2 = next(generator)  # another 16 bytes
 chunk3 = next(generator)  # and so on...
 
 # Same seed always produces the same sequence
-gen1 = UniversalQKD()
-gen2 = UniversalQKD()
+gen1 = GoldenStreamGenerator()
+gen2 = GoldenStreamGenerator()
 assert next(gen1) == next(gen2)  # ✓ Identical!
 ```
 
 ### Procedural World Generation
 
 ```python
-from gq import UniversalQKD
+from gq import GoldenStreamGenerator
 
 class WorldGenerator:
     def __init__(self, world_seed=0):
-        self.generator = UniversalQKD()
+        self.generator = GoldenStreamGenerator()
         # Skip to world-specific position
         for _ in range(world_seed):
             next(self.generator)
@@ -174,7 +174,7 @@ Store **500 MB** of data as a **32-byte seed**. Achieve compression ratios of **
 
 ```python
 # Generate 500 MB from 32 bytes
-generator = UniversalQKD()
+generator = GoldenStreamGenerator()
 data = b''.join([next(generator) for _ in range(32_000_000)])
 # 500 MB generated from tiny seed!
 ```

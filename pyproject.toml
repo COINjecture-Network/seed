@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "golden-seed"
-version = "3.0.0"
+version = "4.0.0"
 description = "GoldenSeed — Infinite reproducible high-entropy streams from tiny fixed seeds. For procedural generation, reproducible testing, and deterministic simulations. NOT FOR CRYPTOGRAPHY."
 readme = "README.md"
 authors = [
