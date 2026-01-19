@@ -39,7 +39,7 @@ from gq.gqs1_core import (
 class TestBoundaryValues(unittest.TestCase):
     """Test suite for boundary value conditions."""
     
-    def test_basis_match_all_values(self):
+    def test_bit_selection_check_all_values(self):
         """Test basis match with all possible byte values (0-255)."""
         match_count = 0
         for byte_val in range(256):
@@ -52,7 +52,7 @@ class TestBoundaryValues(unittest.TestCase):
         self.assertGreaterEqual(match_count, 100)
         self.assertLessEqual(match_count, 156)
     
-    def test_basis_match_boundary_bytes(self):
+    def test_bit_selection_check_boundary_bytes(self):
         """Test basis match with boundary byte values."""
         # Test minimum value (0b00000000: bits 1 and 2 are both 0, so match)
         result_0 = bit_selection_check(0b00000000)
@@ -70,7 +70,7 @@ class TestBoundaryValues(unittest.TestCase):
         self.assertIsInstance(result_6, bool)
         self.assertIsInstance(result_2, bool)
     
-    def test_xor_fold_hardening_edge_cases(self):
+    def test_xor_fold_output_edge_cases(self):
         """Test XOR folding with edge case bit patterns."""
         # All zeros
         bits_all_zero = [0] * 256
@@ -156,14 +156,14 @@ class TestInvalidInputHandling(unittest.TestCase):
         result = verify_seed_checksum(corrupted_seed)
         self.assertFalse(result)
     
-    def test_basis_match_with_negative_would_fail(self):
+    def test_bit_selection_check_with_negative_would_fail(self):
         """Test that basis_match only accepts valid byte values."""
         # Python's byte values are 0-255, negative values would be type error
         # This test verifies the expected behavior
         with self.assertRaises(TypeError):
             bit_selection_check("invalid")  # type: ignore
     
-    def test_xor_fold_hardening_wrong_length(self):
+    def test_xor_fold_output_wrong_length(self):
         """Test XOR folding with incorrect bit count."""
         # Less than 256 bits
         short_bits = [1] * 128
@@ -179,7 +179,7 @@ class TestInvalidInputHandling(unittest.TestCase):
 class TestExtremeParameters(unittest.TestCase):
     """Test suite for extreme parameter combinations."""
     
-    def test_collect_sifted_bits_with_extreme_counter(self):
+    def test_collect_selected_bits_with_extreme_counter(self):
         """Test sifted bit collection with extremely large counter."""
         seed = bytes.fromhex("0000000000000000a8f4979b77e3f93fa8f4979b77e3f93fa8f4979b77e3f93f")
         state = hashlib.sha256(seed).digest()
