@@ -31,9 +31,49 @@ GoldenSeed is a **deterministic PRNG (Pseudo-Random Number Generator)** that cre
 
 ## 🎬 See It In Action
 
-![Procedural Generation Demo](https://via.placeholder.com/800x400/1a1a2e/eee?text=Procedural+Noise+%7C+Infinite+Worlds+%7C+Deterministic+Generation)
+### 🎮 Procedural Dungeon Generation
 
-> 🎨 **Coming Soon**: Animated visualizations of Perlin-like noise, procedural terrain, and infinite stream generation!
+```python
+from gq import GoldenStreamGenerator
+
+class ProceduralDungeon:
+    """Generate deterministic roguelike dungeons."""
+    def __init__(self, seed=0):
+        self.prng = GoldenStreamGenerator()
+        for _ in range(seed): next(self.prng)  # Skip to seed position
+
+    def _rand(self, max_val):
+        return int.from_bytes(next(self.prng)[:4], 'big') % max_val
+
+# Same seed = Same dungeon, every time!
+dungeon1 = ProceduralDungeon(seed=42)
+dungeon2 = ProceduralDungeon(seed=42)
+
+# Perfect for:
+# • Roguelike dungeon generation
+# • Minecraft-style world seeds
+# • Multiplayer map sharing (share seed, not map!)
+# • Speedrun categories by seed
+```
+
+**Seed 42 Output (100% reproducible):**
+```
+╔════════════════════════════════════════╗
+║██████████████████E·████████████████████║
+║█████E███████··^██··████████████████████║
+║█████·███████···███████████████!████████║
+║██████████████████████████████!·E███████║
+║███████████████████████████████E████████║
+║████████████████·!██████████████████████║
+║██████████████·$E>·█████████████████████║
+║██████████████·····█████████████████████║
+║██████████·███E@E·E█████████████████████║
+║█████████··████··E██████████████E$██████║
+╚════════════════════════════════════════╝
+  @=Player  $=Treasure  E=Enemy  >=Stairs
+```
+
+👉 **[Run Full Demo](examples/procedural_dungeon_demo.py)** — See different seeds generate completely different dungeons!
 
 ---
 
@@ -92,6 +132,7 @@ print(f"Biome: {chunk['biome']}, Elevation: {chunk['elevation']}")
 
 ### More Examples
 
+- 🎮 [Procedural Dungeon Demo](examples/procedural_dungeon_demo.py) — Roguelike dungeon generation
 - [Procedural Generation](examples/procedural_generation.py) — Games, world-building, infinite content
 - [Seed Distribution Demo](examples/seed_distribution_demo.py) — Extreme compression, bandwidth savings
 - [Binary Fusion Tap](examples/binary_fusion_tap.py) — Core algorithm examples in 6+ languages
