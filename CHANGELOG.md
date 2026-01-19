@@ -47,7 +47,7 @@ The previous naming (QKD, Universal Key Generator) implied cryptographic securit
 
 Update your imports and function calls:
 
-**Before (v3.x and earlier):**
+**Before (v2.x and earlier):**
 ```python
 from gq import UniversalQKD, generate_universal_keys
 
