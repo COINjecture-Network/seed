@@ -35,19 +35,19 @@ jobs:
     - name: Run Golden Ratio mathematical validation
       run: |
         echo "::group::Golden Ratio Mathematical Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestGoldenRatioMathematicalCorrectness -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestGoldenRatioMathematicalCorrectness -v
         echo "::endgroup::"
     
     - name: Run Modular Arithmetic correctness tests
       run: |
         echo "::group::Modular Arithmetic Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestModularArithmeticCorrectness -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestModularArithmeticCorrectness -v
         echo "::endgroup::"
     
     - name: Run XOR folding validation
       run: |
         echo "::group::XOR Folding Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestXORFoldingCorrectness -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestXORFoldingCorrectness -v
         echo "::endgroup::"
     
     - name: Generate test summary
@@ -83,19 +83,19 @@ jobs:
     - name: Test same seed produces identical sequences
       run: |
         echo "::group::Same Seed Determinism Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestDeterministicBehavior -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestDeterministicBehavior -v
         echo "::endgroup::"
     
     - name: Test cross-seed determinism
       run: |
         echo "::group::Cross-Seed Determinism Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestCrossSeedDeterminism -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestCrossSeedDeterminism -v
         echo "::endgroup::"
     
     - name: Verify against regression vectors
       run: |
         echo "::group::Regression Vector Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestRegressionVectors -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestRegressionVectors -v
         echo "::endgroup::"
     
     - name: Run cross-platform determinism tests
@@ -138,13 +138,13 @@ jobs:
     - name: Test uniformity distribution
       run: |
         echo "::group::Uniformity Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestStatisticalUniformity -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestStatisticalUniformity -v
         echo "::endgroup::"
     
     - name: Test entropy properties
       run: |
         echo "::group::Entropy Tests"
-        python -m pytest tests/test_math_and_determinism.py::TestEntropyProperties -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py::TestEntropyProperties -v
         echo "::endgroup::"
     
     - name: Run golden ratio statistical tests
@@ -223,7 +223,7 @@ jobs:
     - name: Run complete test suite
       run: |
         echo "::group::Complete Math & Determinism Test Suite"
-        python -m pytest tests/test_math_and_determinism.py -v --tb=short
+        python -m pytest tests/math_validation/test_math_and_determinism.py -v --tb=short
         echo "::endgroup::"
     
     - name: Generate comprehensive report
@@ -311,7 +311,7 @@ jobs:
     
     - name: Run core validation tests
       run: |
-        python -m pytest tests/test_math_and_determinism.py -v
+        python -m pytest tests/math_validation/test_math_and_determinism.py -v
     
     - name: Verify determinism across Python versions
       run: |
