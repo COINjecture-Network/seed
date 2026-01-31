@@ -28,44 +28,38 @@ except ImportError:
     sys.exit(1)
 
 
-def generate_bytes(seed_value, count=16):
-    """Get deterministic bytes for a seed value."""
+def get_seeded_generator(seed_value):
+    """Create a generator at a specific offset."""
     generator = UniversalQKD()
-    # Use seed_value to skip ahead in a controlled manner
     skip = seed_value % 100
     for _ in range(skip):
         next(generator)
-    return next(generator)[:count]
+    return generator
 
 
 def generate_ascii_art(seed_value, width=50, height=8):
     """Generate ASCII art from a seed."""
-    generator = UniversalQKD()
-    skip = seed_value % 100
-    for _ in range(skip):
-        next(generator)
+    generator = get_seeded_generator(seed_value)
     
     chars = " .:-=+*#%@"
     lines = []
     
     for _ in range(height):
-        chunk = next(generator)
-        line = ''.join(chars[b % len(chars)] for b in chunk[:width % 16 + 1])
-        # Extend to full width
-        while len(line) < width:
+        line = []
+        remaining = width
+        while remaining > 0:
             chunk = next(generator)
-            line += ''.join(chars[b % len(chars)] for b in chunk[:min(16, width - len(line))])
-        lines.append(line[:width])
+            chars_to_take = min(16, remaining)
+            line.extend(chars[chunk[i] % len(chars)] for i in range(chars_to_take))
+            remaining -= chars_to_take
+        lines.append(''.join(line))
     
     return '\n'.join(lines)
 
 
 def generate_color_palette(seed_value, count=5):
     """Generate a color palette from a seed."""
-    generator = UniversalQKD()
-    skip = seed_value % 100
-    for _ in range(skip):
-        next(generator)
+    generator = get_seeded_generator(seed_value)
     
     colors = []
     for _ in range(count):
@@ -77,10 +71,7 @@ def generate_color_palette(seed_value, count=5):
 
 def generate_stats(seed_value):
     """Generate statistics from a seed."""
-    generator = UniversalQKD()
-    skip = seed_value % 100
-    for _ in range(skip):
-        next(generator)
+    generator = get_seeded_generator(seed_value)
     
     chunk = next(generator)
     return {
@@ -93,10 +84,7 @@ def generate_stats(seed_value):
 
 def generate_pattern(seed_value, size=10):
     """Generate a simple character pattern."""
-    generator = UniversalQKD()
-    skip = seed_value % 100
-    for _ in range(skip):
-        next(generator)
+    generator = get_seeded_generator(seed_value)
     
     chars = "█▓▒░ "
     lines = []
