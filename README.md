@@ -39,11 +39,11 @@ Experience the power of deterministic generation with our **interactive fractal 
 
 **Mandelbrot Set (Seed: 0)**
 
-![Mandelbrot Fractal](examples/fractal_demo/outputs/mandelbrot_seed0.png)
+![Mandelbrot Fractal](https://raw.githubusercontent.com/COINjecture-Network/seed/copilot/add-fractal-demo-integration/examples/fractal_demo/outputs/mandelbrot_seed0.png)
 
 **Zoom Animation**
 
-![Fractal Zoom Animation](examples/fractal_demo/outputs/mandelbrot_zoom_seed0.gif)
+![Fractal Zoom Animation](https://raw.githubusercontent.com/COINjecture-Network/seed/copilot/add-fractal-demo-integration/examples/fractal_demo/outputs/mandelbrot_zoom_seed0.gif)
 
 *Generated from a single seed value - same seed always produces identical results!*
 
