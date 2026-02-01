@@ -33,7 +33,7 @@ GoldenSeed is a **deterministic high-entropy byte stream generator** that create
 
 ### 🌀 Fractal Demo - Procedural Generation Showcase
 
-Experience the power of deterministic generation with our **interactive fractal demo**! Watch as tiny seeds create infinite, reproducible fractal patterns.
+Experience the power of deterministic generation with our **interactive fractal demo**! Watch as tiny seeds create infinite, reproducible fractal patterns. **NEW**: Phi-focused zoom animations that highlight the Golden Ratio's presence in fractal geometry!
 
 <div align="center">
 
@@ -41,7 +41,7 @@ Experience the power of deterministic generation with our **interactive fractal 
 
 ![Mandelbrot Fractal](https://raw.githubusercontent.com/COINjecture-Network/seed/copilot/add-fractal-demo-integration/examples/fractal_demo/outputs/mandelbrot_seed0.png)
 
-**Zoom Animation**
+**Phi-Focused Zoom Animation**
 
 ![Fractal Zoom Animation](https://raw.githubusercontent.com/COINjecture-Network/seed/copilot/add-fractal-demo-integration/examples/fractal_demo/outputs/mandelbrot_zoom_seed0.gif)
 
@@ -58,6 +58,9 @@ cd examples/fractal_demo
 # Install dependencies
 pip install pillow numpy imageio
 
+# Generate fractals focusing on Phi (Golden Ratio) regions
+python fractal_demo_generator.py --zoom-target phi
+
 # Generate fractals with your own seed
 python fractal_demo_generator.py --seed 42
 
@@ -66,9 +69,12 @@ python fractal_demo_generator.py --static-only
 
 # Or generate only animations
 python fractal_demo_generator.py --animated-only
+
+# Try different zoom targets: phi, golden_spiral, default
+python fractal_demo_generator.py --zoom-target golden_spiral
 ```
 
-**Key Insight**: These complex fractal patterns are generated from a tiny seed number, demonstrating how GoldenSeed creates deterministic, reproducible content from minimal data!
+**Key Insight**: These complex fractal patterns are generated from a tiny seed number, demonstrating how GoldenSeed creates deterministic, reproducible content from minimal data! The new Phi-focused zoom targets showcase regions where the Golden Ratio (Φ ≈ 1.618) appears within the fractal geometry itself!
 
 📖 **[Full Fractal Demo Documentation →](examples/fractal_demo/README.md)**
 
