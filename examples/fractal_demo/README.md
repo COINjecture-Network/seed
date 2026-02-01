@@ -230,7 +230,7 @@ python fractal_demo_generator.py --seed 123
 The Golden Ratio (Φ = 1.618...) has unique mathematical properties:
 
 - **Self-similarity**: Φ = 1 + 1/Φ (only positive number where this is true)
-- **Fibonacci relation**: lim(F(n+1)/F(n)) = Φ as n→∞
+- **Fibonacci relation**: lim_{n→∞} F(n+1)/F(n) = Φ (ratio of consecutive Fibonacci numbers approaches Φ)
 - **Golden angle**: 360° / Φ² ≈ 137.5° (spiral patterns in nature)
 - **Optimal packing**: Minimizes gaps in circular arrangements
 
