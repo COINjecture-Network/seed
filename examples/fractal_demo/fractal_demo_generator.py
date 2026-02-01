@@ -63,7 +63,7 @@ from gq import UniversalQKD
 # Golden Ratio constant - fundamental to both GoldenSeed and fractal geometry
 PHI = (1 + math.sqrt(5)) / 2  # ≈ 1.618033988749895
 PHI_SQUARED = PHI * PHI  # ≈ 2.618
-PHI_CUBED = PHI * PHI * PHI  # ≈ 4.236
+
 
 # Zoom target configurations showcasing mathematically significant regions
 ZOOM_TARGETS = {
