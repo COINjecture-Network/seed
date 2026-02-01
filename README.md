@@ -31,9 +31,46 @@ GoldenSeed is a **deterministic high-entropy byte stream generator** that create
 
 ## 🎬 See It In Action
 
-![Procedural Generation Demo](https://via.placeholder.com/800x400/1a1a2e/eee?text=Procedural+Noise+%7C+Infinite+Worlds+%7C+Deterministic+Generation)
+### 🌀 Fractal Demo - Procedural Generation Showcase
 
-> 🎨 **Coming Soon**: Animated visualizations of Perlin-like noise, procedural terrain, and infinite stream generation!
+Experience the power of deterministic generation with our **interactive fractal demo**! Watch as tiny seeds create infinite, reproducible fractal patterns.
+
+<div align="center">
+
+**Mandelbrot Set (Seed: 0)**
+
+![Mandelbrot Fractal](https://raw.githubusercontent.com/COINjecture-Network/seed/copilot/add-fractal-demo-integration/examples/fractal_demo/outputs/mandelbrot_seed0.png)
+
+**Zoom Animation**
+
+![Fractal Zoom Animation](https://raw.githubusercontent.com/COINjecture-Network/seed/copilot/add-fractal-demo-integration/examples/fractal_demo/outputs/mandelbrot_zoom_seed0.gif)
+
+*Generated from a single seed value - same seed always produces identical results!*
+
+</div>
+
+#### 🚀 Try It Yourself
+
+```bash
+# Navigate to fractal demo
+cd examples/fractal_demo
+
+# Install dependencies
+pip install pillow numpy imageio
+
+# Generate fractals with your own seed
+python fractal_demo_generator.py --seed 42
+
+# Or generate only static images
+python fractal_demo_generator.py --static-only
+
+# Or generate only animations
+python fractal_demo_generator.py --animated-only
+```
+
+**Key Insight**: These complex fractal patterns are generated from a tiny seed number, demonstrating how GoldenSeed creates deterministic, reproducible content from minimal data!
+
+📖 **[Full Fractal Demo Documentation →](examples/fractal_demo/README.md)**
 
 ---
 
@@ -92,6 +129,7 @@ print(f"Biome: {chunk['biome']}, Elevation: {chunk['elevation']}")
 
 ### More Examples
 
+- [**🌀 Fractal Demo**](examples/fractal_demo/) — Mandelbrot/Julia sets, procedural art, deterministic visuals
 - [Procedural Generation](examples/procedural_generation.py) — Games, world-building, infinite content
 - [Seed Distribution Demo](examples/seed_distribution_demo.py) — Extreme compression, bandwidth savings
 - [Binary Fusion Tap](examples/binary_fusion_tap.py) — Core algorithm examples in 6+ languages
