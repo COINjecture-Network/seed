@@ -14,11 +14,14 @@ deep connection between the Golden Ratio and fractal geometry.
 ⚠️ NOT FOR CRYPTOGRAPHY: This is for procedural generation demonstrations only.
 
 Usage:
-    python fractal_demo_generator.py                    # Generate all outputs
-    python fractal_demo_generator.py --static-only      # Generate only static images
-    python fractal_demo_generator.py --animated-only    # Generate only animations
-    python fractal_demo_generator.py --seed 42          # Use specific seed for colors
-    python fractal_demo_generator.py --zoom-target phi  # Focus on Phi regions
+    python fractal_demo_generator.py                             # Generate all outputs
+    python fractal_demo_generator.py --static-only               # Generate only static images
+    python fractal_demo_generator.py --animated-only             # Generate only animations
+    python fractal_demo_generator.py --seed 42                   # Use specific seed for colors
+    python fractal_demo_generator.py --zoom-target phi           # Focus on Phi regions
+    python fractal_demo_generator.py --zoom-target phi_squared   # Focus on Φ² regions
+    python fractal_demo_generator.py --fractal-type julia        # Generate Julia animations
+    python fractal_demo_generator.py --fractal-type both         # Generate both types
 
 Requirements:
     pip install pillow numpy imageio
@@ -27,8 +30,9 @@ Features:
     - Deterministic color palettes from seeds
     - HD static images (1920x1080)
     - Smooth zoom animations with Phi-focused targets
-    - Mandelbrot and Julia sets
-    - Golden Ratio mathematical demonstrations
+    - Multiple zoom targets: phi, phi_squared, phi_conjugate, golden_spiral
+    - Mandelbrot and Julia set animations
+    - Golden Ratio mathematical demonstrations (Φ, Φ², 1/Φ)
 """
 
 import argparse
@@ -58,6 +62,8 @@ from gq import UniversalQKD
 
 # Golden Ratio constant - fundamental to both GoldenSeed and fractal geometry
 PHI = (1 + math.sqrt(5)) / 2  # ≈ 1.618033988749895
+PHI_SQUARED = PHI * PHI  # ≈ 2.618
+
 
 # Zoom target configurations showcasing mathematically significant regions
 ZOOM_TARGETS = {
@@ -73,6 +79,34 @@ ZOOM_TARGETS = {
             'center': (0.0, 0.0),
             'description': 'Julia set with c=-1/Φ - demonstrates Phi symmetry',
             'zoom_factor': 1.15
+        }
+    },
+    'phi_squared': {
+        'mandelbrot': {
+            'center': (-1/PHI_SQUARED, 1/PHI_SQUARED),  # Φ² region
+            'description': 'Region scaled by Φ² (≈2.618) - deeper golden proportions',
+            'zoom_factor': 1.19  # Slightly faster zoom for Φ² regions
+        },
+        'julia': {
+            'c_real': -1/PHI_SQUARED,
+            'c_imag': 1/PHI_SQUARED,
+            'center': (0.0, 0.0),
+            'description': 'Julia set with c=-1/Φ²+i/Φ² - second-order Phi influence',
+            'zoom_factor': 1.16
+        }
+    },
+    'phi_conjugate': {
+        'mandelbrot': {
+            'center': (-1/PHI, 1/PHI),  # Reciprocal golden ratio
+            'description': 'Golden ratio conjugate region - inverse Phi scaling',
+            'zoom_factor': 1.17
+        },
+        'julia': {
+            'c_real': 1/PHI - 1,  # (1-Φ)/Φ
+            'c_imag': 1/PHI,
+            'center': (0.0, 0.0),
+            'description': 'Julia set with conjugate Phi parameters',
+            'zoom_factor': 1.14
         }
     },
     'default': {
@@ -371,16 +405,20 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  python fractal_demo_generator.py                    # Generate all outputs
-  python fractal_demo_generator.py --static-only      # Only static images
-  python fractal_demo_generator.py --animated-only    # Only animations
-  python fractal_demo_generator.py --seed 42          # Use seed 42
-  python fractal_demo_generator.py --zoom-target phi  # Focus on Phi regions
+  python fractal_demo_generator.py                             # Generate all outputs
+  python fractal_demo_generator.py --static-only               # Only static images
+  python fractal_demo_generator.py --animated-only             # Only animations
+  python fractal_demo_generator.py --seed 42                   # Use seed 42
+  python fractal_demo_generator.py --zoom-target phi           # Focus on Phi regions
+  python fractal_demo_generator.py --zoom-target phi_squared   # Phi² regions
+  python fractal_demo_generator.py --fractal-type julia        # Julia set animations
 
 Zoom Targets:
-  phi            - Golden Ratio focused regions (demonstrates Φ in fractals)
-  golden_spiral  - Golden angle and spiral patterns  
-  default        - Classic interesting fractal regions
+  phi              - Golden Ratio focused regions (demonstrates Φ ≈ 1.618)
+  phi_squared      - Φ² scaled regions (demonstrates Φ² ≈ 2.618)
+  phi_conjugate    - Golden ratio conjugate regions (1/Φ scaling)
+  golden_spiral    - Golden angle and spiral patterns  
+  default          - Classic interesting fractal regions
         """
     )
     
@@ -393,8 +431,11 @@ Zoom Targets:
     parser.add_argument('--output-dir', type=str, default='outputs',
                        help='Output directory (default: outputs)')
     parser.add_argument('--zoom-target', type=str, default='phi',
-                       choices=['phi', 'default', 'golden_spiral'],
+                       choices=['phi', 'phi_squared', 'phi_conjugate', 'default', 'golden_spiral'],
                        help='Zoom target for animations (default: phi)')
+    parser.add_argument('--fractal-type', type=str, default='mandelbrot',
+                       choices=['mandelbrot', 'julia', 'both'],
+                       help='Type of fractal animation to generate (default: mandelbrot)')
     
     args = parser.parse_args()
     
@@ -441,13 +482,27 @@ Zoom Targets:
             print("⚠ Warning: imageio not installed, skipping animations")
             print("Install with: pip install imageio")
         else:
-            generator.generate_zoom_animation(
-                output_dir / f"mandelbrot_zoom_{args.zoom_target}_seed{args.seed}.gif",
-                fractal_type='mandelbrot',
-                frames=30,
-                zoom_target=args.zoom_target
-            )
-            print()
+            # Determine which fractal types to generate
+            generate_mandelbrot = args.fractal_type in ['mandelbrot', 'both']
+            generate_julia_anim = args.fractal_type in ['julia', 'both']
+            
+            if generate_mandelbrot:
+                generator.generate_zoom_animation(
+                    output_dir / f"mandelbrot_zoom_{args.zoom_target}_seed{args.seed}.gif",
+                    fractal_type='mandelbrot',
+                    frames=30,
+                    zoom_target=args.zoom_target
+                )
+                print()
+            
+            if generate_julia_anim:
+                generator.generate_zoom_animation(
+                    output_dir / f"julia_zoom_{args.zoom_target}_seed{args.seed}.gif",
+                    fractal_type='julia',
+                    frames=30,
+                    zoom_target=args.zoom_target
+                )
+                print()
     
     print("=" * 70)
     print("✓ Generation complete!")
@@ -455,6 +510,8 @@ Zoom Targets:
     print()
     print(f"View your fractals in: {output_dir}/")
     print()
+    
+    # Display mathematical insights based on zoom target
     if args.zoom_target == 'phi':
         print("🌟 Phi (Golden Ratio) Insight:")
         print(f"The golden ratio Φ ≈ {PHI:.6f} appears throughout nature and")
@@ -462,6 +519,25 @@ Zoom Targets:
         print("special symmetries and self-similar patterns at golden proportions.")
         print(f"These animations zoom into regions where Φ's influence is visible!")
         print()
+    elif args.zoom_target == 'phi_squared':
+        print("🌟 Phi² Insight:")
+        print(f"Phi squared (Φ²) ≈ {PHI_SQUARED:.6f} represents the second power of")
+        print("the golden ratio. This value appears in advanced golden proportions")
+        print("and creates deeper self-similarity in fractal structures.")
+        print()
+    elif args.zoom_target == 'phi_conjugate':
+        print("🌟 Golden Ratio Conjugate Insight:")
+        print(f"The golden ratio conjugate (1/Φ) ≈ {1/PHI:.6f} is intimately related")
+        print("to Φ through the identity Φ - 1 = 1/Φ. This creates unique symmetries")
+        print("in fractal patterns where inverse scaling reveals hidden structure.")
+        print()
+    elif args.zoom_target == 'golden_spiral':
+        print("🌟 Golden Spiral Insight:")
+        print("The golden angle (≈137.5°) and spiral patterns based on Φ appear")
+        print("frequently in nature (sunflower seeds, nautilus shells, galaxies).")
+        print("These zoom targets showcase spiral-like fractal features.")
+        print()
+    
     print("Key insight: These complex patterns are generated from")
     print(f"a single seed value ({args.seed}), demonstrating how")
     print("GoldenSeed creates deterministic, reproducible outputs")

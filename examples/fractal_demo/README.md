@@ -50,9 +50,16 @@ pip install pillow numpy imageio
 python fractal_demo_generator.py
 
 # Generate with specific zoom targets
-python fractal_demo_generator.py --zoom-target phi           # Phi regions
-python fractal_demo_generator.py --zoom-target golden_spiral # Golden angles
-python fractal_demo_generator.py --zoom-target default       # Classic regions
+python fractal_demo_generator.py --zoom-target phi             # Phi regions (Φ ≈ 1.618)
+python fractal_demo_generator.py --zoom-target phi_squared     # Φ² regions (≈ 2.618)
+python fractal_demo_generator.py --zoom-target phi_conjugate   # 1/Φ regions (≈ 0.618)
+python fractal_demo_generator.py --zoom-target golden_spiral   # Golden angles
+python fractal_demo_generator.py --zoom-target default         # Classic regions
+
+# Generate specific fractal types
+python fractal_demo_generator.py --fractal-type mandelbrot     # Mandelbrot only
+python fractal_demo_generator.py --fractal-type julia          # Julia only
+python fractal_demo_generator.py --fractal-type both           # Both types
 
 # Generate only static images
 python fractal_demo_generator.py --static-only
@@ -63,8 +70,8 @@ python fractal_demo_generator.py --animated-only
 # Use a specific seed for unique colors
 python fractal_demo_generator.py --seed 42
 
-# Combine options
-python fractal_demo_generator.py --seed 42 --zoom-target golden_spiral
+# Combine options for custom outputs
+python fractal_demo_generator.py --seed 42 --zoom-target phi_squared --fractal-type both
 
 # Custom output directory
 python fractal_demo_generator.py --output-dir my_fractals
@@ -76,16 +83,31 @@ python fractal_demo_generator.py --output-dir my_fractals
    - Mandelbrot: Zooms into Phi-spiral region at coordinates involving 1/Φ
    - Julia: Uses c = -1/Φ + 0i, demonstrating Phi symmetry
    - Zoom rate: ~1.18x per frame (related to Φ/√2)
+   - Mathematical significance: Shows regions where Φ ≈ 1.618 proportions dominate
 
-2. **`golden_spiral`** - Golden angle and spiral patterns
+2. **`phi_squared`** - Φ² scaled regions
+   - Mandelbrot: Focuses on regions scaled by Φ² (≈ 2.618)
+   - Julia: Uses c = -1/Φ² + i/Φ² parameters
+   - Zoom rate: ~1.19x per frame
+   - Mathematical significance: Demonstrates second-order golden proportions
+
+3. **`phi_conjugate`** - Golden ratio conjugate regions
+   - Mandelbrot: Targets 1/Φ (≈ 0.618) scaled coordinates
+   - Julia: Uses conjugate Phi parameters
+   - Zoom rate: ~1.14-1.17x per frame
+   - Mathematical significance: Explores inverse golden scaling (Φ - 1 = 1/Φ)
+
+4. **`golden_spiral`** - Golden angle and spiral patterns
    - Mandelbrot: Focuses on golden angle region near secondary bulb
    - Julia: Uses c = -1/Φ + i/Φ (double Phi influence)
    - Zoom rate: ~1.14-1.17x per frame
+   - Mathematical significance: Highlights spiral structures at golden angle (≈137.5°)
 
-3. **`default`** - Classic interesting fractal regions
+5. **`default`** - Classic interesting fractal regions
    - Mandelbrot: Main cardioid "neck" region
    - Julia: Traditional parameters (c = -0.4 + 0.6i)
    - Zoom rate: 1.12-1.15x per frame
+   - Mathematical significance: Standard reference points for comparison
 
 ## 📊 Technical Details
 
@@ -222,6 +244,7 @@ python fractal_demo_generator.py --seed 123
 4. **Procedural Power**: Demonstrates GoldenSeed's capability for procedural content generation
 5. **Phi Meta-Connection**: The generator uses Φ as its seed, visualizes Φ in fractals, at Φ-related zoom rates!
 6. **Mathematical Beauty**: Golden Ratio appears in nature, art, and now in your deterministic fractals
+7. **Multiple Phi Powers**: Explore Φ, Φ², and 1/Φ to see how different golden proportions affect fractal structure
 
 ## 🌟 The Phi Connection Explained
 
@@ -233,6 +256,7 @@ The Golden Ratio (Φ = 1.618...) has unique mathematical properties:
 - **Fibonacci relation**: lim_{n→∞} F(n+1)/F(n) = Φ (ratio of consecutive Fibonacci numbers approaches Φ)
 - **Golden angle**: 360° / Φ² ≈ 137.5° (spiral patterns in nature)
 - **Optimal packing**: Minimizes gaps in circular arrangements
+- **Phi powers**: Φ² ≈ 2.618 and 1/Φ ≈ 0.618 create related mathematical structures
 
 In the Mandelbrot and Julia sets:
 
