@@ -61,6 +61,17 @@ pip install pillow numpy imageio
 # Generate fractals focusing on Phi (Golden Ratio) regions
 python fractal_demo_generator.py --zoom-target phi
 
+# Explore different Phi-based zoom targets
+python fractal_demo_generator.py --zoom-target phi_squared     # Φ² regions
+python fractal_demo_generator.py --zoom-target phi_conjugate   # 1/Φ regions
+python fractal_demo_generator.py --zoom-target golden_spiral   # Golden angles
+
+# Generate Julia set animations
+python fractal_demo_generator.py --fractal-type julia --zoom-target phi
+
+# Generate both Mandelbrot and Julia animations
+python fractal_demo_generator.py --fractal-type both --zoom-target phi_squared
+
 # Generate fractals with your own seed
 python fractal_demo_generator.py --seed 42
 
@@ -69,12 +80,9 @@ python fractal_demo_generator.py --static-only
 
 # Or generate only animations
 python fractal_demo_generator.py --animated-only
-
-# Try different zoom targets: phi, golden_spiral, default
-python fractal_demo_generator.py --zoom-target golden_spiral
 ```
 
-**Key Insight**: These complex fractal patterns are generated from a tiny seed number, demonstrating how GoldenSeed creates deterministic, reproducible content from minimal data! The new Phi-focused zoom targets showcase regions where the Golden Ratio (Φ ≈ 1.618) appears within the fractal geometry itself!
+**Key Insight**: These complex fractal patterns are generated from a tiny seed number, demonstrating how GoldenSeed creates deterministic, reproducible content from minimal data! The new Phi-focused zoom targets showcase regions where the Golden Ratio (Φ ≈ 1.618), its square (Φ² ≈ 2.618), and its conjugate (1/Φ ≈ 0.618) appear within the fractal geometry itself!
 
 📖 **[Full Fractal Demo Documentation →](examples/fractal_demo/README.md)**
 
