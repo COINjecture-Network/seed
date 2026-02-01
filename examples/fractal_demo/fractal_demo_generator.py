@@ -360,7 +360,6 @@ Examples:
                 fractal_type='mandelbrot',
                 frames=30
             )
-            
             print()
     
     print("=" * 70)
