@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alice ↔ Bob Classical Data Teleportation Demo</title>
+    <style>
+        /* =================================================================
+           STYLING - Clean, modern design with minimal dependencies
+           ================================================================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .description {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+
+        .description h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .description p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Animation Canvas */
+        .animation-container {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(to bottom, #1a1a2e 0%, #16213e 100%);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Alice - Left Side */
+        .character {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        .alice {
+            left: 50px;
+        }
+
+        .bob {
+            right: 50px;
+        }
+
+        .character-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            color: white;
+            margin: 0 auto 10px;
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .character-name {
+            color: white;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Seed Animation */
+        .seed {
+            position: absolute;
+            top: 50%;
+            left: 150px;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            opacity: 0;
+            z-index: 5;
+        }
+
+        .seed-symbol {
+            font-size: 40px;
+            color: #ffd700;
+            text-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        @keyframes seedTravel {
+            0% {
+                left: 150px;
+                opacity: 1;
+            }
+            100% {
+                left: calc(100% - 190px);
+                opacity: 1;
+            }
+        }
+
+        .seed.traveling {
+            animation: seedTravel 2s ease-in-out forwards;
+        }
+
+        /* Data Stream */
+        .data-stream {
+            position: absolute;
+            right: 150px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            height: 200px;
+            opacity: 0;
+        }
+
+        .data-stream.active {
+            opacity: 1;
+        }
+
+        .data-byte {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #00ff00;
+            text-shadow: 0 0 5px #00ff00;
+            opacity: 0;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Status Display */
+        .status {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-top: 20px;
+        }
+
+        .info-box h3 {
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .info-box li {
+            margin: 5px 0;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <h1>Alice ↔ Bob Data Teleportation</h1>
+        <p class="subtitle">Classical Data Teleportation via Seed Distribution</p>
+
+        <!-- Description -->
+        <div class="description">
+            <h2>🌟 How It Works</h2>
+            <p>
+                <strong>Step 1:</strong> Alice sends a tiny seed (Φ - the golden ratio symbol) to Bob. 
+                This seed is extremely small (just 32 bytes), but it contains all the information needed to generate infinite data.
+            </p>
+            <p style="margin-top: 10px;">
+                <strong>Step 2:</strong> Bob receives the seed and uses it to generate an infinite, deterministic data stream. 
+                The same seed always produces the same data, enabling "data teleportation" without actually sending the bulk data!
+            </p>
+        </div>
+
+        <!-- Status Display -->
+        <div class="status" id="status">
+            Ready to demonstrate data teleportation
+        </div>
+
+        <!-- Animation Canvas -->
+        <div class="animation-container" id="animationCanvas">
+            <!-- Alice -->
+            <div class="character alice">
+                <div class="character-avatar">👩‍💻</div>
+                <div class="character-name">Alice</div>
+            </div>
+
+            <!-- Bob -->
+            <div class="character bob">
+                <div class="character-avatar">👨‍💻</div>
+                <div class="character-name">Bob</div>
+            </div>
+
+            <!-- Seed (Phi symbol) -->
+            <div class="seed" id="seed">
+                <div class="seed-symbol">Φ</div>
+            </div>
+
+            <!-- Data Stream -->
+            <div class="data-stream" id="dataStream"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="btn-primary" id="startBtn" onclick="startDemo()">
+                ▶ Start Demo
+            </button>
+            <button class="btn-secondary" id="resetBtn" onclick="resetDemo()">
+                ↻ Reset
+            </button>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>💡 Key Concepts:</h3>
+            <ul>
+                <li><strong>Seed:</strong> A tiny piece of data (Φ symbol) representing 32 bytes</li>
+                <li><strong>Deterministic Generation:</strong> Same seed always produces identical output</li>
+                <li><strong>Infinite Stream:</strong> Bob can generate unlimited data from the single seed</li>
+                <li><strong>Zero Bulk Transfer:</strong> Only the seed travels over the network, not the data itself</li>
+                <li><strong>Compression Ratio:</strong> Can achieve millions-to-one compression for deterministic data</li>
+            </ul>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Part of the <a href="https://github.com/COINjecture-Network/seed" target="_blank">GoldenSeed Project</a></p>
+            <p>Learn more about <a href="../docs/DATA_TELEPORTATION_AND_COMPRESSION.md" target="_blank">Data Teleportation & Compression</a></p>
+        </div>
+    </div>
+
+    <script>
+        /* =================================================================
+           JAVASCRIPT - Animation Logic
+           ================================================================= */
+
+        let animationState = 'idle'; // idle, sending, generating, complete
+        let dataStreamInterval = null;
+        let dataByteCounter = 0;
+
+        /**
+         * Start the demonstration
+         */
+        function startDemo() {
+            if (animationState !== 'idle') {
+                return; // Already running
+            }
+
+            resetDemo();
+            animationState = 'sending';
+
+            // Update status
+            updateStatus('Alice is sending the seed (Φ) to Bob...', false);
+
+            // Start seed animation
+            const seed = document.getElementById('seed');
+            seed.style.opacity = '1';
+            seed.classList.add('traveling');
+
+            // After seed reaches Bob, start data generation
+            setTimeout(() => {
+                animationState = 'generating';
+                updateStatus('Bob received the seed! Generating infinite data stream...', true);
+                startDataGeneration();
+            }, 2000); // Match the seedTravel animation duration
+        }
+
+        /**
+         * Reset the demonstration
+         */
+        function resetDemo() {
+            animationState = 'idle';
+            
+            // Clear any running animations
+            if (dataStreamInterval) {
+                clearInterval(dataStreamInterval);
+                dataStreamInterval = null;
+            }
+
+            // Reset seed
+            const seed = document.getElementById('seed');
+            seed.style.opacity = '0';
+            seed.classList.remove('traveling');
+            seed.style.left = '150px';
+
+            // Clear data stream
+            const dataStream = document.getElementById('dataStream');
+            dataStream.innerHTML = '';
+            dataStream.classList.remove('active');
+            dataByteCounter = 0;
+
+            // Reset status
+            updateStatus('Ready to demonstrate data teleportation', false);
+        }
+
+        /**
+         * Update status message
+         */
+        function updateStatus(message, active) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            if (active) {
+                status.classList.add('active');
+            } else {
+                status.classList.remove('active');
+            }
+        }
+
+        /**
+         * Start generating data bytes
+         */
+        function startDataGeneration() {
+            const dataStream = document.getElementById('dataStream');
+            dataStream.classList.add('active');
+
+            // Generate data bytes continuously
+            dataStreamInterval = setInterval(() => {
+                createDataByte();
+            }, 150); // Create new byte every 150ms
+        }
+
+        /**
+         * Create a single data byte element
+         */
+        function createDataByte() {
+            const dataStream = document.getElementById('dataStream');
+            const dataByte = document.createElement('div');
+            dataByte.className = 'data-byte';
+            
+            // Generate random-looking hex byte (representing deterministic data)
+            const hexValue = generatePseudoRandomHex();
+            dataByte.textContent = hexValue;
+
+            // Random position within the stream area
+            const x = Math.random() * 280;
+            const y = Math.random() * 180;
+            dataByte.style.left = x + 'px';
+            dataByte.style.top = y + 'px';
+
+            dataStream.appendChild(dataByte);
+            dataByteCounter++;
+
+            // Animate byte appearance
+            setTimeout(() => {
+                dataByte.style.opacity = '1';
+            }, 10);
+
+            // Fade out and remove after some time
+            setTimeout(() => {
+                dataByte.style.transition = 'opacity 0.5s ease-out';
+                dataByte.style.opacity = '0';
+                setTimeout(() => {
+                    if (dataByte.parentNode) {
+                        dataByte.parentNode.removeChild(dataByte);
+                    }
+                }, 500);
+            }, 2000);
+
+            // Update counter in status
+            if (animationState === 'generating') {
+                updateStatus(
+                    `Bob is generating data... ${dataByteCounter} bytes generated (∞ more available!)`,
+                    true
+                );
+            }
+        }
+
+        /**
+         * Generate pseudo-random hex for visual effect
+         * (In reality, this would be deterministic output from the seed)
+         */
+        function generatePseudoRandomHex() {
+            // Use a simple deterministic pattern based on counter
+            const value = (dataByteCounter * 31337 + 42) % 256;
+            return '0x' + value.toString(16).padStart(2, '0').toUpperCase();
+        }
+
+        /**
+         * Initialize on page load
+         */
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Alice ↔ Bob Data Teleportation Demo loaded');
+            console.log('This demo visualizes how tiny seeds can generate infinite data streams');
+        });
+    </script>
+</body>
+</html>
