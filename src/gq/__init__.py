@@ -73,6 +73,16 @@ from .watermark import (
     check_watermark_present,
 )
 
+from .codec import (
+    SeedEnvelope,
+    SeedCatalog,
+    encode as codec_encode,
+    decode as codec_decode,
+    encode_stream_reference,
+    compression_stats,
+    SEED_REGISTRY,
+)
+
 __all__ = [
     "UniversalQKD",
     "generate_universal_keys",
@@ -106,6 +116,14 @@ __all__ = [
     "embed_watermark_in_binary",
     "extract_watermark_from_binary",
     "check_watermark_present",
+    # Compression Codec
+    "SeedEnvelope",
+    "SeedCatalog",
+    "codec_encode",
+    "codec_decode",
+    "encode_stream_reference",
+    "compression_stats",
+    "SEED_REGISTRY",
 ]
 
 __version__ = "3.0.0"

@@ -48,6 +48,10 @@ keywords = [
     "seed-generation",
     "binary-watermarking",
     "data-reconstruction",
+    "saas",
+    "compression-api",
+    "seed-envelope",
+    "universal-codec",
 ]
 
 [project.urls]
@@ -61,18 +65,23 @@ dev = [
     "pytest>=7.0",
     "pytest-cov>=4.0",
 ]
+saas = [
+    "fastapi>=0.100.0",
+    "uvicorn>=0.22.0",
+]
 
 [project.scripts]
 gq-universal = "gq.cli.universal:main"
 gq-test-vectors = "gq.cli.gqs1:main"
 gq-coin-flip = "gq.cli.golden_ratio_coin_flip:main"
+gq-saas = "saas.app:run"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["gq*"]
+include = ["gq*", "saas*"]
 namespaces = false
 
 [tool.pytest.ini_options]
